@@ -24,17 +24,15 @@ namespace Passports
                 StreamReader sr = new StreamReader(fileStream);
                 var line = sr.ReadLine();
                 while (line != null)
-                {
-                    line = sr.ReadLine();
+                {                    
                     var data = line.Split(";");
-                    foreach(String s in data)
+                    Passport passport = new Passport()
                     {
-                        Passport passport = new Passport() { 
-                            Series = Convert.ToInt32(data[0]), 
-                            Number = Convert.ToInt32(data[1])
-                        };
-                        PassportRepository.Add(passport);
-                    }
+                        Series = Convert.ToInt32(data[0]),
+                        Number = Convert.ToInt32(data[1])
+                    };
+                    PassportRepository.Add(passport);
+                    line = sr.ReadLine();
                 }
                 sr.Close();
             }
