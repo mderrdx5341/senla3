@@ -20,21 +20,22 @@ namespace Passports
         static public void Read(Stream fileStream)
         {
             try
-            {                
-                StreamReader sr = new StreamReader(fileStream);
-                var line = sr.ReadLine();
-                while (line != null)
-                {                    
-                    var data = line.Split(";");
-                    Passport passport = new Passport()
+            {
+                using (StreamReader sr = new StreamReader(fileStream))
+                {
+                    var line = sr.ReadLine();
+                    while (line != null)
                     {
-                        Series = Convert.ToInt32(data[0]),
-                        Number = Convert.ToInt32(data[1])
-                    };
-                    PassportRepository.Add(passport);
-                    line = sr.ReadLine();
+                        var data = line.Split(";");
+                        Passport passport = new Passport()
+                        {
+                            Series = Convert.ToInt32(data[0]),
+                            Number = Convert.ToInt32(data[1])
+                        };
+                        PassportRepository.Add(passport);
+                        line = sr.ReadLine();
+                    }
                 }
-                sr.Close();
             }
             catch (Exception e)
             {
