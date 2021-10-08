@@ -26,9 +26,11 @@ namespace Passports
         /// <param name="Url"></param>
         public static void GetFile(string url)
         {
-            WebClient client = new WebClient();
-            client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
-            client.DownloadFileAsync(new Uri(url), NameZipFile);
+            using (WebClient client = new WebClient())
+            {
+                client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
+                client.DownloadFileAsync(new Uri(url), NameZipFile);
+            }
         }
 
         static private void Completed(object sender, AsyncCompletedEventArgs e)
