@@ -33,7 +33,6 @@ namespace Passports
 
         static private void Completed(object sender, AsyncCompletedEventArgs e)
         {
-            List<Passport> passports = new List<Passport>();
             ZipArchive zip = ZipFile.OpenRead(NameZipFile);
 
             foreach (var zipEntry in zip.Entries)
