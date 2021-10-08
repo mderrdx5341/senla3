@@ -19,7 +19,9 @@ namespace Passports.Services
             _nextUpdate = nextUpdate;
             _url = url;
         }
-
+        /// <summary>
+        /// Запускает обновление данных по указанному времени
+        /// </summary>
         public void Start()
         {
             StartTask();
