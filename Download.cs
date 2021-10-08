@@ -13,9 +13,17 @@ using System.ComponentModel;
 
 namespace Passports
 {
+    /// <summary>
+    /// Класс для скачивания файла с данными
+    /// </summary>
     public class Download
     {
         const string NameZipFile = "passport.zip";
+
+        /// <summary>
+        /// Получение файла с данными
+        /// </summary>
+        /// <param name="Url"></param>
         static public void File(String Url)
         {
             WebClient client = new WebClient();

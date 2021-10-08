@@ -8,8 +8,15 @@ using Passports.Models;
 
 namespace Passports
 {
+    /// <summary>
+    /// Класс для парсинга CSV
+    /// </summary>
     public class CSV
     {
+        /// <summary>
+        /// Парсит строки CSV и добавляет данные в репозиторий
+        /// </summary>
+        /// <param name="fileStream"></param>
         static public void Read(Stream fileStream)
         {
             try

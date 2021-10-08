@@ -5,9 +5,18 @@ using System.Threading.Tasks;
 
 namespace Passports.Models
 {
+    /// <summary>
+    /// Паспорт
+    /// </summary>
     public class Passport
     {
+        /// <summary>
+        /// Серия паспорта
+        /// </summary>
         public int Series { get; set; }
+        /// <summary>
+        /// Номер паспорта
+        /// </summary>
         public int Number { get; set; }
     }
 }

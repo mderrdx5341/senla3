@@ -26,7 +26,20 @@ namespace Passports
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            Download.File(Configuration["FileUrl"]);
+
+            string[] timeDownload = Configuration["TimeDownload"].Split(":");
+            DateTime timeUpdate = new DateTime(
+                DateTime.Today.Year, 
+                DateTime.Today.Month,
+                DateTime.Today.Day,
+                Convert.ToInt32(timeDownload[0]),
+                Convert.ToInt32(timeDownload[1]),
+                0
+            );
+
+            DataUpdateService dataUpdateService = new DataUpdateService(timeUpdate, Configuration["FileUrl"]);
+            dataUpdateService.Start();
+
             services.AddSingleton<PassportService>();
             
             services.AddControllers();
