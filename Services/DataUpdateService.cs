@@ -24,11 +24,6 @@ namespace Passports.Services
         /// </summary>
         public void Start()
         {
-            StartTask();
-        }
-
-        private void StartTask()
-        {
             Task.Run(StartTimer);
         }
 
@@ -37,6 +32,7 @@ namespace Passports.Services
             TimerCallback tm = new TimerCallback(StartUpdate);
             _timer = new Timer(tm, null, 0, 2000);
         }
+
         private void StartUpdate(object o)
         {
             if (isUpdate())
@@ -53,6 +49,7 @@ namespace Passports.Services
             TimeSpan ts = _nextUpdate.Subtract(DateTime.Now);
             return (ts.CompareTo(TimeSpan.Zero) < 0);
         }
+
         private void Update()
         {
             Download.File(_url);
