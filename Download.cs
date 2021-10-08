@@ -24,11 +24,11 @@ namespace Passports
         /// Получение файла с данными
         /// </summary>
         /// <param name="Url"></param>
-        static public void GetFile(String Url)
+        public static void GetFile(string url)
         {
             WebClient client = new WebClient();
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
-            client.DownloadFileAsync(new Uri(Url), NameZipFile);
+            client.DownloadFileAsync(new Uri(url), NameZipFile);
         }
 
         static private void Completed(object sender, AsyncCompletedEventArgs e)
