@@ -9,12 +9,12 @@ namespace Passports.Services
     /// <summary>
     /// Сервис для обновления списка данных из внешнего источника
     /// </summary>
-    public class DataUpdateService
+    internal class DataUpdaterService
     {
         private readonly string _url;
         private DateTime _nextUpdate;
         private Timer _timer;
-        public DataUpdateService(DateTime nextUpdate, string url)
+        public DataUpdaterService(DateTime nextUpdate, string url)
         {
             _nextUpdate = nextUpdate;
             _url = url;

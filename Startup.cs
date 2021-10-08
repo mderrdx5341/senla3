@@ -37,7 +37,7 @@ namespace Passports
                 0
             );
 
-            DataUpdateService dataUpdateService = new DataUpdateService(timeUpdate, Configuration["FileUrl"]);
+            DataUpdaterService dataUpdateService = new DataUpdaterService(timeUpdate, Configuration["FileUrl"]);
             dataUpdateService.Start();
 
             services.AddSingleton<PassportService>();
