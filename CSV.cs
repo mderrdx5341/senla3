@@ -23,8 +23,8 @@ namespace Passports
             {
                 using (StreamReader sr = new StreamReader(fileStream))
                 {
-                    var line = sr.ReadLine();
-                    while (line != null)
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
                     {
                         var data = line.Split(";");
                         Passport passport = new Passport()
@@ -33,7 +33,6 @@ namespace Passports
                             Number = Convert.ToInt32(data[1])
                         };
                         PassportRepository.Add(passport);
-                        line = sr.ReadLine();
                     }
                 }
             }
