@@ -24,7 +24,7 @@ namespace Passports
         /// Получение файла с данными
         /// </summary>
         /// <param name="Url"></param>
-        static public void File(String Url)
+        static public void GetFile(String Url)
         {
             WebClient client = new WebClient();
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);

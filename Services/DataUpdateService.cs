@@ -52,7 +52,7 @@ namespace Passports.Services
 
         private void Update()
         {
-            Download.File(_url);
+            Download.GetFile(_url);
         }
     }
 }
