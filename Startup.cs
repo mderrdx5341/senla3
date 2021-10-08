@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Passports.Services;
 
 namespace Passports
 {
@@ -25,7 +26,9 @@ namespace Passports
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            Download.File(Configuration["FileUrl"]);
+            services.AddSingleton<PassportService>();
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
