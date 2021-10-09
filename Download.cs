@@ -35,11 +35,13 @@ namespace Passports
 
         static private void Completed(object sender, AsyncCompletedEventArgs e)
         {
-            ZipArchive zip = ZipFile.OpenRead(NameZipFile);
-
-            foreach (var zipEntry in zip.Entries)
+            using (ZipArchive zip = ZipFile.OpenRead(NameZipFile))
             {
-                CSV.Read(zipEntry.Open());
+
+                foreach (var zipEntry in zip.Entries)
+                {
+                    CSV.Read(zipEntry.Open());
+                }
             }
         }
     }
