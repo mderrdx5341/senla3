@@ -15,7 +15,7 @@ namespace Passports
     /// </summary>
     public class Download
     {
-        const string NameZipFile = "passport.zip";
+        private const string NameZipFile = "passport.zip";
 
         /// <summary>
         /// Получение файла с данными
