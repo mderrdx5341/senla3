@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
+using Microsoft.Extensions.Configuration;
 
 namespace Passports.Services
 {
@@ -11,15 +12,25 @@ namespace Passports.Services
     /// </summary>
     internal class DataUpdaterService : IDataUpdaterService
     {
-        private readonly IPassportsRepository _passportsRepository;
         private readonly IUpdaterData _updater;
         private DateTime _nextUpdate;
         private Timer _timer;
-        public DataUpdaterService(IPassportsRepository passportsRepository, IUpdaterData updater, DateTime nextUpdate)
+        public DataUpdaterService(IUpdaterData updater, IConfiguration configuration)
         {
-            _passportsRepository = passportsRepository;
-            _nextUpdate = nextUpdate;
+            _nextUpdate = SetNextUpdate(configuration["TimeDownload"].Split(":"));
             _updater = updater;
+        }
+
+        private DateTime SetNextUpdate(string[] timeDownload)
+        {
+            return new DateTime(
+                DateTime.Today.Year,
+                DateTime.Today.Month,
+                DateTime.Today.Day,
+                Convert.ToInt32(timeDownload[0]),
+                Convert.ToInt32(timeDownload[1]),
+                0
+            );
         }
         /// <summary>
         /// Запускает обновление данных по указанному времени

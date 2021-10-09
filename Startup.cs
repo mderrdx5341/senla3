@@ -26,26 +26,10 @@ namespace Passports
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            PassportsRepository passportsRepository = new PassportsRepository();
-            services.AddSingleton<IPassportsRepository>(passportsRepository);
+            services.AddSingleton<IPassportsRepository, PassportsRepository>();
             services.AddSingleton<IPassportsService, PassportsService>();
-
-            string[] timeDownload = Configuration["TimeDownload"].Split(":");
-            DateTime timeUpdate = new DateTime(
-                DateTime.Today.Year,
-                DateTime.Today.Month,
-                DateTime.Today.Day,
-                Convert.ToInt32(timeDownload[0]),
-                Convert.ToInt32(timeDownload[1]),
-                0
-            );
-
-            DataUpdaterService dataUpdateService = new DataUpdaterService(
-                passportsRepository,
-                new UpdaterData(passportsRepository, Configuration),
-                timeUpdate
-            );
-            dataUpdateService.Start();
+            services.AddSingleton<IUpdaterData, UpdaterData>();
+            services.AddSingleton<IDataUpdaterService, DataUpdaterService>();
             
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -67,6 +51,8 @@ namespace Passports
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.StartDataUpdater();
 
             app.UseEndpoints(endpoints =>
             {
