@@ -13,7 +13,7 @@ namespace Passports
     /// </summary>
     internal class CSVStreamReader : IEnumerable, IDisposable
     {
-        private readonly LoacalEnumerator _enumerator;
+        private readonly LocalEnumerator _enumerator;
 
         public CSVStreamReader(Stream stream)
         {
@@ -38,11 +38,11 @@ namespace Passports
         /// <summary>
         /// Реализация интерфейса IEnumerator
         /// </summary>
-        private class LoacalEnumerator : IEnumerator
+        private class LocalEnumerator : IEnumerator
         {
             private readonly StreamReader _streamReader;
             private string _line;
-            public LoacalEnumerator(StreamReader streamReader)
+            public LocalEnumerator(StreamReader streamReader)
             {
                 _streamReader = streamReader;
             }
