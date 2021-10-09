@@ -40,7 +40,15 @@ namespace Passports
 
                 foreach (var zipEntry in zip.Entries)
                 {
-                    CSV.Read(zipEntry.Open());
+                    using(CSVStreamReader csv = new CSVStreamReader(zipEntry.Open()))
+                    {
+                        foreach(string[] record in csv)
+                        {
+                            PassportRepository.Add(
+                                new Passport() { Series = Convert.ToInt32(record[0]), Number = Convert.ToInt32(record[1]) }
+                            );
+                        }
+                    }
                 }
             }
         }
