@@ -39,11 +39,18 @@ namespace Passports
                 {
                     using(CSVStreamReader csv = new CSVStreamReader(zipEntry.Open()))
                     {
-                        foreach(string[] record in csv)
+                        try
                         {
-                            PassportRepository.Add(
-                                new Passport() { Series = Convert.ToInt32(record[0]), Number = Convert.ToInt32(record[1]) }
-                            );
+                            foreach (string[] record in csv)
+                            {
+                                PassportRepository.Add(
+                                    new Passport() { Series = Convert.ToInt32(record[0]), Number = Convert.ToInt32(record[1]) }
+                                );
+                            }
+                        }
+                        catch (Exception)
+                        {
+
                         }
                     }
                 }

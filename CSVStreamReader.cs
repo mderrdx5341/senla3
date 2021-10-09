@@ -67,14 +67,7 @@ namespace Passports
             public void Reset()
             {
                 //_streamReader.DiscardBufferedData();
-                try
-                {
-                    _streamReader.BaseStream.Position = 0;
-                }
-                catch (Exception)
-                {
-
-                }
+                _streamReader.BaseStream.Position = 0;
             }
             /// <summary>
             /// Возвращает текущую запись
