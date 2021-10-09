@@ -1,6 +1,6 @@
 ﻿namespace Passports
 {
-    internal interface IUpdaterData
+    internal interface IDataUpdater
     {
         public void Run();
     }

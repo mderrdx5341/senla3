@@ -14,14 +14,14 @@ namespace Passports
     /// <summary>
     /// Класс для скачивания файла с данными
     /// </summary>
-    internal class UpdaterData: IUpdaterData
+    internal class DataUpdater: IDataUpdater
     {
         private const string NameZipFile = "passport.zip";
         private readonly string _url;
 
         private IPassportsRepository _passportsRepository;
 
-        public UpdaterData(IPassportsRepository passportsRepository, IConfiguration configuration)
+        public DataUpdater(IPassportsRepository passportsRepository, IConfiguration configuration)
         {
             _url = configuration["FileUrl"];
             _passportsRepository = passportsRepository;

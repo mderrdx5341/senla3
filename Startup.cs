@@ -28,7 +28,7 @@ namespace Passports
         {
             services.AddSingleton<IPassportsRepository, PassportsRepository>();
             services.AddSingleton<IPassportsService, PassportsService>();
-            services.AddSingleton<IUpdaterData, UpdaterData>();
+            services.AddSingleton<IDataUpdater, DataUpdater>();
             services.AddSingleton<IDataUpdaterService, DataUpdaterService>();
             
             services.AddControllers();

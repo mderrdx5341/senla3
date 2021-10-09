@@ -12,10 +12,10 @@ namespace Passports.Services
     /// </summary>
     internal class DataUpdaterService : IDataUpdaterService
     {
-        private readonly IUpdaterData _updater;
+        private readonly IDataUpdater _updater;
         private DateTime _nextUpdate;
         private Timer _timer;
-        public DataUpdaterService(IUpdaterData updater, IConfiguration configuration)
+        public DataUpdaterService(IDataUpdater updater, IConfiguration configuration)
         {
             _nextUpdate = SetNextUpdate(configuration["TimeDownload"].Split(":"));
             _updater = updater;
