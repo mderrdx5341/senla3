@@ -13,7 +13,7 @@ namespace Passports
     /// <summary>
     /// Класс для скачивания файла с данными
     /// </summary>
-    public class Download
+    internal class Download
     {
         private const string NameZipFile = "passport.zip";
 
@@ -21,7 +21,7 @@ namespace Passports
         /// Получение файла с данными
         /// </summary>
         /// <param name="Url"></param>
-        public static void GetFile(string url)
+        public void GetFile(string url)
         {
             using (WebClient client = new WebClient())
             {
@@ -30,7 +30,7 @@ namespace Passports
             }
         }
 
-        static private void Completed(object sender, AsyncCompletedEventArgs e)
+        private void Completed(object sender, AsyncCompletedEventArgs e)
         {
             using (ZipArchive zip = ZipFile.OpenRead(NameZipFile))
             {
