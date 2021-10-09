@@ -8,7 +8,7 @@ namespace Passports.Models
     /// <summary>
     /// Паспорт
     /// </summary>
-    public class Passport
+    internal class Passport
     {
         /// <summary>
         /// Серия паспорта

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Passports.Models;
 using Passports.Services;
+using System.Collections;
 
 namespace Passports.Controllers
 {
@@ -27,9 +28,9 @@ namespace Passports.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<List<Passport>> List()
+        public ActionResult<ArrayList> List()
         {
-            return _passportsServie.GetPassports();
+            return new ArrayList(_passportsServie.GetPassports());
         }
     }
 }
