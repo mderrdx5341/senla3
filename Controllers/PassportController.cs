@@ -17,10 +17,10 @@ namespace Passports.Controllers
     [Route("[controller]")]
     public class PassportController : ControllerBase
     {
-        private readonly IPassportsService _passportServie;
+        private readonly IPassportsService _passportsServie;
         public PassportController(IServiceProvider serviceProvider)
         {
-            _passportServie = serviceProvider.GetRequiredService<IPassportsService>();
+            _passportsServie = serviceProvider.GetRequiredService<IPassportsService>();
         }
         /// <summary>
         /// Получение списка паспортов
@@ -29,7 +29,7 @@ namespace Passports.Controllers
         [HttpGet]
         public ActionResult<List<Passport>> List()
         {
-            return _passportServie.GetPassports();
+            return _passportsServie.GetPassports();
         }
     }
 }

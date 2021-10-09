@@ -9,7 +9,7 @@ namespace Passports.Services
     /// <summary>
     /// Сервис для предоставления данных о паспортах
     /// </summary>
-    internal class PassportService : IPassportsService
+    internal class PassportsService : IPassportsService
     {
         /// <summary>
         /// Список всех паспортов
