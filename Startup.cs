@@ -40,7 +40,7 @@ namespace Passports
             DataUpdaterService dataUpdateService = new DataUpdaterService(timeUpdate, Configuration["FileUrl"]);
             dataUpdateService.Start();
 
-            services.AddSingleton<PassportService>();
+            services.AddSingleton<IPassportsService, PassportService>();
             
             services.AddControllers();
             services.AddSwaggerGen(c =>

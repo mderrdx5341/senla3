@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 using Passports.Models;
 using Passports.Services;
 
@@ -16,10 +17,10 @@ namespace Passports.Controllers
     [Route("[controller]")]
     public class PassportController : ControllerBase
     {
-        private readonly PassportService _passportServie;
-        public PassportController(PassportService passportService)
+        private readonly IPassportsService _passportServie;
+        public PassportController(IServiceProvider serviceProvider)
         {
-            _passportServie = passportService;
+            _passportServie = serviceProvider.GetRequiredService<IPassportsService>();
         }
         /// <summary>
         /// Получение списка паспортов
