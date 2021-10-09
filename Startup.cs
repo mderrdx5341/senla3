@@ -40,9 +40,13 @@ namespace Passports
                 0
             );
 
-            DataUpdaterService dataUpdateService = new DataUpdaterService(passportsRepository, timeUpdate, Configuration["FileUrl"]);
+            DataUpdaterService dataUpdateService = new DataUpdaterService(
+                passportsRepository,
+                new UpdaterData(passportsRepository, Configuration),
+                timeUpdate
+            );
             dataUpdateService.Start();
-
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

@@ -7,20 +7,23 @@ using System.IO;
 using System.IO.Compression;
 using Passports.Models;
 using System.ComponentModel;
+using Microsoft.Extensions.Configuration;
 
 namespace Passports
 {
     /// <summary>
     /// Класс для скачивания файла с данными
     /// </summary>
-    internal class Download
+    internal class UpdaterData: IUpdaterData
     {
         private const string NameZipFile = "passport.zip";
+        private readonly string _url;
 
         private IPassportsRepository _passportsRepository;
 
-        public Download(IPassportsRepository passportsRepository)
+        public UpdaterData(IPassportsRepository passportsRepository, IConfiguration configuration)
         {
+            _url = configuration["FileUrl"];
             _passportsRepository = passportsRepository;
         }
 
@@ -28,12 +31,12 @@ namespace Passports
         /// Получение файла с данными
         /// </summary>
         /// <param name="Url"></param>
-        public void GetFile(string url)
+        public void Run()
         {
             using (WebClient client = new WebClient())
             {
                 client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
-                client.DownloadFileAsync(new Uri(url), NameZipFile);
+                client.DownloadFileAsync(new Uri(_url), NameZipFile);
             }
         }
 

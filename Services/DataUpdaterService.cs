@@ -12,14 +12,14 @@ namespace Passports.Services
     internal class DataUpdaterService : IDataUpdaterService
     {
         private readonly IPassportsRepository _passportsRepository;
-        private readonly string _url;
+        private readonly IUpdaterData _updater;
         private DateTime _nextUpdate;
         private Timer _timer;
-        public DataUpdaterService(IPassportsRepository passportsRepository, DateTime nextUpdate, string url)
+        public DataUpdaterService(IPassportsRepository passportsRepository, IUpdaterData updater, DateTime nextUpdate)
         {
             _passportsRepository = passportsRepository;
             _nextUpdate = nextUpdate;
-            _url = url;
+            _updater = updater;
         }
         /// <summary>
         /// Запускает обновление данных по указанному времени
@@ -54,7 +54,7 @@ namespace Passports.Services
 
         private void Update()
         {
-            (new Download(_passportsRepository)).GetFile(_url);
+            _updater.Run();
         }
     }
 }
