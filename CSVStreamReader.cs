@@ -17,7 +17,7 @@ namespace Passports
 
         public CSVStreamReader(Stream stream)
         {
-            _enumerator = new LoacalEnumerator(new StreamReader(stream));
+            _enumerator = new LocalEnumerator(new StreamReader(stream));
         }
 
         /// <summary>
