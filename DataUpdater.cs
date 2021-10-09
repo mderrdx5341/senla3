@@ -35,34 +35,39 @@ namespace Passports
         {
             using (WebClient client = new WebClient())
             {
-                client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
-                client.DownloadFileAsync(new Uri(_url), NameZipFile);
+                client.DownloadFile(new Uri(_url), NameZipFile);
+                ReadZipFile();
             }
         }
 
-        private void Completed(object sender, AsyncCompletedEventArgs e)
+        private void ReadZipFile()
         {
             using (ZipArchive zip = ZipFile.OpenRead(NameZipFile))
             {
 
                 foreach (var zipEntry in zip.Entries)
                 {
-                    using(CSVStreamReader csv = new CSVStreamReader(zipEntry.Open()))
-                    {
-                        try
-                        {
-                            foreach (string[] record in csv)
-                            {
-                                _passportsRepository.Add(
-                                    new Passport() { Series = Convert.ToInt32(record[0]), Number = Convert.ToInt32(record[1]) }
-                                );
-                            }
-                        }
-                        catch (Exception)
-                        {
+                    UpdateDataFromZip(zipEntry.Open());
+                }
+            }
+        }
 
-                        }
+        private void UpdateDataFromZip(Stream stream)
+        {
+            using (CSVStreamReader csv = new CSVStreamReader(stream))
+            {
+                try
+                {
+                    foreach (string[] record in csv)
+                    {
+                        _passportsRepository.Add(
+                            new Passport() { Series = Convert.ToInt32(record[0]), Number = Convert.ToInt32(record[1]) }
+                        );
                     }
+                }
+                catch (Exception)
+                {
+
                 }
             }
         }
