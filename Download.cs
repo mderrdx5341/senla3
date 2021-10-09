@@ -17,6 +17,13 @@ namespace Passports
     {
         private const string NameZipFile = "passport.zip";
 
+        private IPassportsRepository _passportsRepository;
+
+        public Download(IPassportsRepository passportsRepository)
+        {
+            _passportsRepository = passportsRepository;
+        }
+
         /// <summary>
         /// Получение файла с данными
         /// </summary>
@@ -43,7 +50,7 @@ namespace Passports
                         {
                             foreach (string[] record in csv)
                             {
-                                PassportRepository.Add(
+                                _passportsRepository.Add(
                                     new Passport() { Series = Convert.ToInt32(record[0]), Number = Convert.ToInt32(record[1]) }
                                 );
                             }

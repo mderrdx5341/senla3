@@ -9,14 +9,14 @@ namespace Passports
     /// <summary>
     /// Репозиторий с паспортами
     /// </summary>
-    public class PassportRepository
+    internal class PassportsRepository : IPassportsRepository
     {
-        private static readonly List<Passport> _passports = new List<Passport>();
+        private readonly List<Passport> _passports = new List<Passport>();
         /// <summary>
         /// Добавление паспорта в список
         /// </summary>
         /// <param name="passport"></param>
-        public static void Add(Passport passport)
+        public void Add(Passport passport)
         {
             _passports.Add(passport);
         }
@@ -24,7 +24,7 @@ namespace Passports
         /// Получение списка паспортов
         /// </summary>
         /// <returns></returns>
-        public static List<Passport> GetAll()
+        public List<Passport> GetAll()
         {
             return _passports;
         }

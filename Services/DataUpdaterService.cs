@@ -11,11 +11,13 @@ namespace Passports.Services
     /// </summary>
     internal class DataUpdaterService : IDataUpdaterService
     {
+        private readonly IPassportsRepository _passportsRepository;
         private readonly string _url;
         private DateTime _nextUpdate;
         private Timer _timer;
-        public DataUpdaterService(DateTime nextUpdate, string url)
+        public DataUpdaterService(IPassportsRepository passportsRepository, DateTime nextUpdate, string url)
         {
+            _passportsRepository = passportsRepository;
             _nextUpdate = nextUpdate;
             _url = url;
         }
@@ -52,7 +54,7 @@ namespace Passports.Services
 
         private void Update()
         {
-            (new Download()).GetFile(_url);
+            (new Download(_passportsRepository)).GetFile(_url);
         }
     }
 }

@@ -11,13 +11,18 @@ namespace Passports.Services
     /// </summary>
     internal class PassportsService : IPassportsService
     {
+        private IPassportsRepository _passportsRepository;
+        public PassportsService(IPassportsRepository passportsRepository)
+        {
+            _passportsRepository = passportsRepository;
+        }
         /// <summary>
         /// Список всех паспортов
         /// </summary>
         /// <returns></returns>
         public List<Passport> GetPassports()
         {
-            return PassportRepository.GetAll();
+            return _passportsRepository.GetAll();
         }
     }
 }
