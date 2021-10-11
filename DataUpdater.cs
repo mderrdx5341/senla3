@@ -35,11 +35,11 @@ namespace Passports
             using (WebClient client = new WebClient())
             {
                 client.DownloadFile(new Uri(_url), NameZipFile);
-                ReadZipFile();
+                ReadZipFileAndUpdateData();
             }
         }
 
-        private void ReadZipFile()
+        private void ReadZipFileAndUpdateData()
         {
             using (ZipArchive zip = ZipFile.OpenRead(NameZipFile))
             {
