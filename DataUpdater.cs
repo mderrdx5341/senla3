@@ -39,7 +39,7 @@ namespace Passports
             }
         }
 
-        private void ReadZipFileAndUpdateData()
+        private void UpdateDataFromZip()
         {
             using (ZipArchive zip = ZipFile.OpenRead(NameZipFile))
             {
@@ -50,7 +50,7 @@ namespace Passports
             }
         }
 
-        private void UpdateDataFromZip(Stream stream)
+        private void UpdateData(Stream stream)
         {
             using (CSVStreamReader csv = new CSVStreamReader(stream))
             {
