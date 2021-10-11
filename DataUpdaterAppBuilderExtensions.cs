@@ -12,7 +12,7 @@ namespace Passports
     /// <summary>
     /// Расширение класса для сборки приложения
     /// </summary>
-    public static class DataUpdaterAppBuilderExtensions
+    internal static class DataUpdaterAppBuilderExtensions
     {
         /// <summary>
         /// Старт обновления данных
