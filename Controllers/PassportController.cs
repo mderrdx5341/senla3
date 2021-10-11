@@ -28,7 +28,7 @@ namespace Passports.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<ArrayList> List()
+        public ActionResult<ArrayList> GetPassports()
         {
             return new ArrayList(_passportsServie.GetPassports());
         }
