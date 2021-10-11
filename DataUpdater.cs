@@ -12,7 +12,7 @@ using Microsoft.Extensions.Configuration;
 namespace Passports
 {
     /// <summary>
-    /// Класс для скачивания файла с данными
+    /// Класс для обнавления данных
     /// </summary>
     internal class DataUpdater: IDataUpdater
     {
@@ -28,7 +28,7 @@ namespace Passports
         }
 
         /// <summary>
-        /// Получение файла с данными
+        /// Запуск обновления
         /// </summary>
         /// <param name="Url"></param>
         public void Run()
