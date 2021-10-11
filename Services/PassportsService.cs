@@ -11,7 +11,7 @@ namespace Passports.Services
     /// </summary>
     internal class PassportsService : IPassportsService
     {
-        private IPassportsRepository _passportsRepository;
+        private readonly IPassportsRepository _passportsRepository;
         public PassportsService(IPassportsRepository passportsRepository)
         {
             _passportsRepository = passportsRepository;
