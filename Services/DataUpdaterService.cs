@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 namespace Passports.Services
 {
     /// <summary>
-    /// Сервис для обновления списка данных из внешнего источника
+    /// Сервис для обновления данных по расписанию
     /// </summary>
     internal class DataUpdaterService : IDataUpdaterService
     {
@@ -33,7 +33,7 @@ namespace Passports.Services
             );
         }
         /// <summary>
-        /// Запускает обновление данных по указанному времени
+        /// Запускает обновление данных
         /// </summary>
         public void Start()
         {
