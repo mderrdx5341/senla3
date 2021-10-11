@@ -18,7 +18,6 @@ namespace Passports
     {
         private const string NameZipFile = "passport.zip";
         private readonly string _url;
-
         private readonly IPassportsRepository _passportsRepository;
 
         public DataUpdater(IPassportsRepository passportsRepository, IConfiguration configuration)
