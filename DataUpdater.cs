@@ -35,7 +35,7 @@ namespace Passports
             using (WebClient client = new WebClient())
             {
                 client.DownloadFile(new Uri(_url), NameZipFile);
-                ReadZipFileAndUpdateData();
+                UpdateDataFromZip();
             }
         }
 
@@ -45,7 +45,7 @@ namespace Passports
             {
                 foreach (var zipEntry in zip.Entries)
                 {
-                    UpdateDataFromZip(zipEntry.Open());
+                    UpdateData(zipEntry.Open());
                 }
             }
         }
