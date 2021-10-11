@@ -48,7 +48,7 @@ namespace Passports.Services
 
         private void StartUpdate(object o)
         {
-            if (isNeedUpdate())
+            if (IsNeedUpdate())
             {
                 _timer.Change(Timeout.Infinite, Timeout.Infinite);
                 _nextUpdate = _nextUpdate.AddDays(1);
@@ -57,7 +57,7 @@ namespace Passports.Services
             }
         }
 
-        private bool isNeedUpdate()
+        private bool IsNeedUpdate()
         {
             TimeSpan ts = _nextUpdate.Subtract(DateTime.Now);
             return (ts.CompareTo(TimeSpan.Zero) < 0);
