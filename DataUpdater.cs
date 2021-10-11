@@ -44,7 +44,6 @@ namespace Passports
         {
             using (ZipArchive zip = ZipFile.OpenRead(NameZipFile))
             {
-
                 foreach (var zipEntry in zip.Entries)
                 {
                     UpdateDataFromZip(zipEntry.Open());
