@@ -1,42 +1,42 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using Passports.Models;
+using Quartz;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Net;
 using System.IO;
 using System.IO.Compression;
-using Passports.Models;
-using System.ComponentModel;
-using Microsoft.Extensions.Configuration;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using System.Text;
 
-namespace Passports
+namespace Passports.Jobs
 {
-    /// <summary>
-    /// Класс для обнавления данных
-    /// </summary>
-    internal class DataUpdater: IDataUpdater
+    internal class DataUpdater : IJob
     {
         private const string NameZipFile = "passport.zip";
         private readonly string _url;
         private readonly IPassportsRepository _passportsRepository;
 
-        public DataUpdater(IPassportsRepository passportsRepository, IConfiguration configuration)
+        public DataUpdater(IPassportsRepository passportsRepository , IConfiguration configuration)
         {
-            _url = configuration["FileUrl"];
             _passportsRepository = passportsRepository;
+            _url = configuration["FileUrl"];
         }
 
         /// <summary>
         /// Запуск обновления
         /// </summary>
         /// <param name="Url"></param>
-        public void Run()
+        public Task Execute(IJobExecutionContext context)
         {
             using (WebClient client = new WebClient())
             {
                 client.DownloadFile(new Uri(_url), NameZipFile);
                 UpdateDataFromZip();
             }
+            return Task.CompletedTask;
         }
 
         private void UpdateDataFromZip()
@@ -54,18 +54,11 @@ namespace Passports
         {
             using (CSVStreamReader csv = new CSVStreamReader(stream))
             {
-                try
+                foreach (string[] record in csv)
                 {
-                    foreach (string[] record in csv)
-                    {
-                        _passportsRepository.Add(
-                            new Passport() { Series = Convert.ToInt32(record[0]), Number = Convert.ToInt32(record[1]) }
-                        );
-                    }
-                }
-                catch (Exception)
-                {
-
+                    _passportsRepository.Add(
+                        new Passport() { Series = Convert.ToInt32(record[0]), Number = Convert.ToInt32(record[1]) }
+                    );
                 }
             }
         }

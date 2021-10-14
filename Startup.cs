@@ -10,7 +10,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Passports.Jobs;
 using Passports.Services;
+using Quartz;
+using Quartz.Spi;
 
 namespace Passports
 {
@@ -26,10 +29,21 @@ namespace Passports
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddQuartz(q =>
+            {
+                q.UseMicrosoftDependencyInjectionJobFactory();
+                var jobKey = new JobKey("UpdatePassportsData");
+
+                q.AddJobAndTrigger<DataUpdater>(Configuration);
+
+            });
+            services.AddQuartzServer(options =>
+            {
+                options.WaitForJobsToComplete = true;
+            });
+
             services.AddSingleton<IPassportsRepository, PassportsRepository>();
             services.AddSingleton<IPassportsService, PassportsService>();
-            services.AddSingleton<IDataUpdater, DataUpdater>();
-            services.AddSingleton<IDataUpdaterService, DataUpdaterService>();
             
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -51,8 +65,6 @@ namespace Passports
             app.UseRouting();
 
             app.UseAuthorization();
-
-            app.StartDataUpdater();
 
             app.UseEndpoints(endpoints =>
             {
