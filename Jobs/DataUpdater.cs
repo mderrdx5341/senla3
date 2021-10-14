@@ -13,6 +13,9 @@ using System.Text;
 
 namespace Passports.Jobs
 {
+    /// <summary>
+    /// Класс обновляет данные паспортов
+    /// </summary>
     internal class DataUpdater : IJob
     {
         private const string NameZipFile = "passport.zip";
