@@ -57,11 +57,14 @@ namespace Passports.Jobs
         {
             using (StreamReader csv = new StreamReader(stream))
             {
-                string line = csv.ReadLine();
-                string[] record = line.Split(";");
-                _passportsRepository.Add(
-                    new Passport() { Series = Convert.ToInt32(record[0]), Number = Convert.ToInt32(record[1]) }
-                );
+                string line;
+                while ((line = csv.ReadLine()) != null)
+                {
+                    string[] record = line.Split(";");
+                    _passportsRepository.Add(
+                        new Passport() { Series = Convert.ToInt32(record[0]), Number = Convert.ToInt32(record[1]) }
+                    );
+                }
             }
         }
     }

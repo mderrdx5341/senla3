@@ -27,7 +27,7 @@ namespace Passports
 
             if (string.IsNullOrEmpty(cronSchedule))
             {
-                throw new Exception($"No Quartz.NET Cron schedule found for job in configuration at {configKey}");
+                throw new Exception($"No Quartz.NET Cron schedule found for job in configuration at TimeDownload");
             }
 
             var jobKey = new JobKey(jobName);
