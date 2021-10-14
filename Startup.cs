@@ -32,8 +32,6 @@ namespace Passports
             services.AddQuartz(q =>
             {
                 q.UseMicrosoftDependencyInjectionJobFactory();
-                var jobKey = new JobKey("UpdatePassportsData");
-
                 q.AddJobAndTrigger<DataUpdaterJob>(Configuration);
 
             });
