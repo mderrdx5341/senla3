@@ -23,8 +23,7 @@ namespace Passports
         {
             string jobName = typeof(T).Name;
 
-            var configKey = "TimeDownload";
-            var cronSchedule = config[configKey];
+            var cronSchedule = config["TimeDownload"];
 
             if (string.IsNullOrEmpty(cronSchedule))
             {
