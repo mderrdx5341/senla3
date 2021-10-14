@@ -16,13 +16,13 @@ namespace Passports.Jobs
     /// <summary>
     /// Класс обновляет данные паспортов
     /// </summary>
-    internal class DataUpdater : IJob
+    internal class DataUpdaterJob : IJob
     {
         private const string NameZipFile = "passport.zip";
         private readonly string _url;
         private readonly IPassportsRepository _passportsRepository;
 
-        public DataUpdater(IPassportsRepository passportsRepository , IConfiguration configuration)
+        public DataUpdaterJob(IPassportsRepository passportsRepository , IConfiguration configuration)
         {
             _passportsRepository = passportsRepository;
             _url = configuration["FileUrl"];
