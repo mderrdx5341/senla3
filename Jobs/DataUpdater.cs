@@ -52,14 +52,13 @@ namespace Passports.Jobs
 
         private void UpdateData(Stream stream)
         {
-            using (CSVStreamReader csv = new CSVStreamReader(stream))
+            using (StreamReader csv = new StreamReader(stream))
             {
-                foreach (string[] record in csv)
-                {
-                    _passportsRepository.Add(
-                        new Passport() { Series = Convert.ToInt32(record[0]), Number = Convert.ToInt32(record[1]) }
-                    );
-                }
+                string line = csv.ReadLine();
+                string[] record = line.Split(";");
+                _passportsRepository.Add(
+                    new Passport() { Series = Convert.ToInt32(record[0]), Number = Convert.ToInt32(record[1]) }
+                );
             }
         }
     }
