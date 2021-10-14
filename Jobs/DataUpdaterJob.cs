@@ -27,11 +27,11 @@ namespace Passports.Jobs
             _passportsRepository = passportsRepository;
             _url = configuration["FileUrl"];
         }
-
         /// <summary>
         /// Запуск обновления
         /// </summary>
-        /// <param name="Url"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public Task Execute(IJobExecutionContext context)
         {
             using (WebClient client = new WebClient())
