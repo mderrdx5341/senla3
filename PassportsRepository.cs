@@ -43,11 +43,11 @@ namespace Passports
             List<Passport> dbPassports = _ctx.Passports.ToList();
             foreach (Passport passport in dbPassports)
             {
-                Passport passportFromNewList = passports.Where(
+                Passport coincidentPassport = passports.Where(
                     p => p.Series == passport.Series && p.Number == passport.Number
                 ).FirstOrDefault();
 
-                if (passportFromNewList == null)
+                if (coincidentPassport == null)
                 {
                     if (passport.IsActive == false)
                     {
@@ -60,7 +60,7 @@ namespace Passports
                     {
                         Update(passport, false);                        
                     }
-                    passports.Remove(passportFromNewList);
+                    passports.Remove(coincidentPassport);
                 }
             }
 
