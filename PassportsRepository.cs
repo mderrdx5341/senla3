@@ -40,8 +40,8 @@ namespace Passports
         /// <param name="passports"></param>
         public void SaveRange(List<Passport> passports)
         {
-            List<Passport> inStore = _ctx.Passports.ToList();
-            foreach (Passport passport in inStore)
+            List<Passport> dbPassports = _ctx.Passports.ToList();
+            foreach (Passport passport in dbPassports)
             {
                 Passport inPassport = passports.Where(
                     inP => inP.Series == passport.Series && inP.Number == passport.Number
