@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Passports.Models;
 
 namespace Passports
@@ -11,14 +13,10 @@ namespace Passports
     /// </summary>
     internal class PassportsRepository : IPassportsRepository
     {
-        private readonly List<Passport> _passports = new List<Passport>();
-        /// <summary>
-        /// Добавление паспорта в список
-        /// </summary>
-        /// <param name="passport"></param>
-        public void Add(Passport passport)
+        private readonly DataBaseContext _ctx;
+        public PassportsRepository(IServiceProvider serviceProvider)
         {
-            _passports.Add(passport);
+            _ctx = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<DataBaseContext>(); ;
         }
         /// <summary>
         /// Получение списка паспортов
@@ -26,7 +24,97 @@ namespace Passports
         /// <returns></returns>
         public List<Passport> GetAll()
         {
-            return _passports;
+            return _ctx.Passports.Include(p => p.History).ToList();
+        }
+        /// <summary>
+        /// Получение списка записей истории
+        /// </summary>
+        /// <returns></returns>
+        public List<PassportHistory> GetHistory()
+        {
+            return _ctx.PassportHistory.ToList();
+        }
+        /// <summary>
+        /// Обработать список паспартов
+        /// </summary>
+        /// <param name="passports"></param>
+        public void ProcessRange(List<Passport> passports)
+        {
+            List<Passport> inStore = _ctx.Passports.ToList();
+            foreach (Passport passport in inStore)
+            {
+                Passport inPassport = passports.Where(
+                    inP => inP.Series == passport.Series && inP.Number == passport.Number
+                ).FirstOrDefault();
+
+                if (inPassport == null)
+                {
+                    if (passport.Active == false)
+                    {
+                        Update(passport, true);
+                    }
+                } 
+                else
+                {
+                    if (passport.Active == true)
+                    {
+                        Update(passport, false);                        
+                    }
+                    passports.Remove(inPassport);
+                }
+            }
+
+            foreach (Passport p in passports)
+            {
+                Add(p);
+            }
+            _ctx.SaveChanges();
+        }
+        private void Add(Passport passport)
+        {
+            passport.Id = 0;
+            passport.Active = false;
+            passport.History.Add(
+                new PassportHistory()
+                {
+                    Id = 0,
+                    DateTimeChange = DateTime.Today,
+                    ChangeType = PassportHistory.ChangeTypes.Add,
+                    PassportId = passport.Id
+                }
+            );
+
+            _ctx.Passports.Add(passport);
+        }
+        private void Update(Passport passport, bool newStatus)
+        {
+            if (newStatus == true)
+            {
+                passport.Active = true;
+                passport.History.Add(
+                    new PassportHistory()
+                    {
+                        Id = 0,
+                        PassportId = passport.Id,
+                        DateTimeChange = DateTime.Today,
+                        ChangeType = PassportHistory.ChangeTypes.Active
+                    }
+                );
+            }
+            else
+            {
+                passport.Active = false;
+                passport.History.Add(
+                    new PassportHistory()
+                    {
+                        Id = 0,
+                        PassportId = passport.Id,
+                        DateTimeChange = DateTime.Today,
+                        ChangeType = PassportHistory.ChangeTypes.NotActive
+                    }
+                );
+            }
+            _ctx.Passports.Update(passport);
         }
     }
 }

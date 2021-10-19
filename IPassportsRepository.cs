@@ -9,14 +9,19 @@ namespace Passports
     internal interface IPassportsRepository
     {
         /// <summary>
-        /// Добавление паспорта
-        /// </summary>
-        /// <param name="passport"></param>
-        public void Add(Passport passport);
-        /// <summary>
         /// Получение списка паспартов
         /// </summary>
         /// <returns></returns>
         public List<Passport> GetAll();
+        /// <summary>
+        /// Получение списка записей историй
+        /// </summary>
+        /// <returns></returns>
+        public List<PassportHistory> GetHistory();
+        /// <summary>
+        /// Обработать список паспартов
+        /// </summary>
+        /// <param name="passports"></param>
+        void ProcessRange(List<Passport> passports);
     }
 }
