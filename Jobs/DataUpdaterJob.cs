@@ -66,7 +66,7 @@ namespace Passports.Jobs
                         new Passport() { Series = Convert.ToInt32(record[0]), Number = Convert.ToInt32(record[1]) }
                     );
                 }
-                _passportsRepository.ProcessRange(
+                _passportsRepository.SaveRange(
                     passports
                 );
             }

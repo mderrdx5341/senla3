@@ -38,7 +38,7 @@ namespace Passports
         /// Обработать список паспартов
         /// </summary>
         /// <param name="passports"></param>
-        public void ProcessRange(List<Passport> passports)
+        public void SaveRange(List<Passport> passports)
         {
             List<Passport> inStore = _ctx.Passports.ToList();
             foreach (Passport passport in inStore)

@@ -22,6 +22,6 @@ namespace Passports
         /// Обработать список паспартов
         /// </summary>
         /// <param name="passports"></param>
-        void ProcessRange(List<Passport> passports);
+        void SaveRange(List<Passport> passports);
     }
 }
