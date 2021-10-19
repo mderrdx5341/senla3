@@ -14,9 +14,9 @@ namespace Passports
     internal class PassportsRepository : IPassportsRepository
     {
         private readonly DataBaseContext _ctx;
-        public PassportsRepository(IServiceProvider serviceProvider)
+        public PassportsRepository(DataBaseContext ctx)
         {
-            _ctx = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<DataBaseContext>(); ;
+            _ctx = ctx;
         }
         /// <summary>
         /// Получение списка паспортов

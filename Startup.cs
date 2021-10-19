@@ -45,8 +45,8 @@ namespace Passports
                 options.WaitForJobsToComplete = true;
             });
 
-            services.AddSingleton<IPassportsRepository, PassportsRepository>();
-            services.AddSingleton<IPassportsService, PassportsService>();
+            services.AddScoped<IPassportsRepository, PassportsRepository>();
+            services.AddScoped<IPassportsService, PassportsService>();
             
             services.AddControllers();
             services.AddSwaggerGen(c =>
