@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Passports.Models
 {
+    /// <summary>
+    /// Объект для работы с базой данных
+    /// </summary>
     internal class DataBaseContext : DbContext
     {
         /// <summary>

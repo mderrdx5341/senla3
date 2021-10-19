@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Passports.Models
 {
+    /// <summary>
+    /// Хранит изменене статуса паспорта
+    /// </summary>
     internal class PassportHistory
     {
         /// <summary>
