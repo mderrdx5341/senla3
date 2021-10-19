@@ -11,15 +11,6 @@ namespace Passports.Models
     internal class PassportHistory
     {
         /// <summary>
-        /// Возможные виды изменения записи
-        /// </summary>
-        public enum ChangeTypes
-        {
-            Add,
-            Active,
-            NotActive
-        }
-        /// <summary>
         /// Id записи в истори
         /// </summary>
         public int Id { get; set; }
@@ -34,6 +25,6 @@ namespace Passports.Models
         /// <summary>
         /// Тип изменения записи
         /// </summary>
-        public ChangeTypes ChangeType { get; set; }
+        public PassportStatus ChangeType { get; set; }
     }
 }

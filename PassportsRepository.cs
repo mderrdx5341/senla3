@@ -75,7 +75,7 @@ namespace Passports
             passport.Id = 0;
             passport.IsActive = false;
             passport.History.Add(
-                CreateHistoryRecord(passport, PassportHistory.ChangeTypes.Add)
+                CreateHistoryRecord(passport, PassportStatus.Add)
             );
 
             _ctx.Passports.Add(passport);
@@ -86,13 +86,13 @@ namespace Passports
             passport.History.Add(
                 CreateHistoryRecord(
                     passport,
-                    newStatus ? PassportHistory.ChangeTypes.Active : PassportHistory.ChangeTypes.NotActive
+                    newStatus ? PassportStatus.Active : PassportStatus.NotActive
                 )
             );
             _ctx.Passports.Update(passport);
         }
 
-        private PassportHistory CreateHistoryRecord(Passport passport, PassportHistory.ChangeTypes status)
+        private PassportHistory CreateHistoryRecord(Passport passport, PassportStatus status)
         {
             return new PassportHistory()
             {
