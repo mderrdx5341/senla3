@@ -88,32 +88,16 @@ namespace Passports
         }
         private void Update(Passport passport, bool newStatus)
         {
-            if (newStatus == true)
-            {
-                passport.IsActive = true;
-                passport.History.Add(
-                    new PassportHistory()
-                    {
-                        Id = 0,
-                        PassportId = passport.Id,
-                        DateTimeChange = DateTime.Today,
-                        ChangeType = PassportHistory.ChangeTypes.Active
-                    }
-                );
-            }
-            else
-            {
-                passport.IsActive = false;
-                passport.History.Add(
-                    new PassportHistory()
-                    {
-                        Id = 0,
-                        PassportId = passport.Id,
-                        DateTimeChange = DateTime.Today,
-                        ChangeType = PassportHistory.ChangeTypes.NotActive
-                    }
-                );
-            }
+            passport.IsActive = newStatus;
+            passport.History.Add(
+                new PassportHistory()
+                {
+                    Id = 0,
+                    PassportId = passport.Id,
+                    DateTimeChange = DateTime.Today,
+                    ChangeType = newStatus ? PassportHistory.ChangeTypes.Active : PassportHistory.ChangeTypes.NotActive
+                }
+            );
             _ctx.Passports.Update(passport);
         }
     }
