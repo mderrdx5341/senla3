@@ -27,7 +27,6 @@ namespace Passports.Models
         /// Id паспорта
         /// </summary>
         public int PassportId { get; set; }
-        /*public Passport Passport { get; set; }*/
         /// <summary>
         /// Дата изменения
         /// </summary>
