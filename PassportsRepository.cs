@@ -49,14 +49,14 @@ namespace Passports
 
                 if (inPassport == null)
                 {
-                    if (passport.Active == false)
+                    if (passport.IsActive == false)
                     {
                         Update(passport, true);
                     }
                 } 
                 else
                 {
-                    if (passport.Active == true)
+                    if (passport.IsActive == true)
                     {
                         Update(passport, false);                        
                     }
@@ -73,7 +73,7 @@ namespace Passports
         private void Add(Passport passport)
         {
             passport.Id = 0;
-            passport.Active = false;
+            passport.IsActive = false;
             passport.History.Add(
                 new PassportHistory()
                 {
@@ -90,7 +90,7 @@ namespace Passports
         {
             if (newStatus == true)
             {
-                passport.Active = true;
+                passport.IsActive = true;
                 passport.History.Add(
                     new PassportHistory()
                     {
@@ -103,7 +103,7 @@ namespace Passports
             }
             else
             {
-                passport.Active = false;
+                passport.IsActive = false;
                 passport.History.Add(
                     new PassportHistory()
                     {

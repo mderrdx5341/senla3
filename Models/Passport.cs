@@ -17,7 +17,7 @@ namespace Passports.Models
         /// <summary>
         /// Активность паспорта
         /// </summary>
-        public bool Active { get; set; }
+        public bool IsActive { get; set; }
         /// <summary>
         /// Серия паспорта
         /// </summary>
