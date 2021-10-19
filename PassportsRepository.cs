@@ -35,7 +35,7 @@ namespace Passports
             return _ctx.PassportsHistory.ToList();
         }
         /// <summary>
-        /// Обработать список паспартов
+        /// Обработать список паспортов
         /// </summary>
         /// <param name="passports"></param>
         public void SaveRange(List<Passport> passports)

@@ -19,7 +19,7 @@ namespace Passports
         /// <returns></returns>
         public List<PassportHistory> GetHistory();
         /// <summary>
-        /// Обработать список паспартов
+        /// Обработать список паспортов
         /// </summary>
         /// <param name="passports"></param>
         void SaveRange(List<Passport> passports);
