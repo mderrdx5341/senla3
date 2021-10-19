@@ -17,6 +17,15 @@ namespace Passports.Services
             _passportsRepository = passportsRepository;
         }
         /// <summary>
+        /// Список всех записей истории
+        /// </summary>
+        /// <returns></returns>
+        public List<PassportHistory> GetHistory()
+        {
+            return _passportsRepository.GetHistory();
+        }
+
+        /// <summary>
         /// Список всех паспортов
         /// </summary>
         /// <returns></returns>

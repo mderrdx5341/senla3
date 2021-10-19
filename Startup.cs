@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Passports.Jobs;
+using Passports.Models;
 using Passports.Services;
 using Quartz;
 using Quartz.Spi;
@@ -29,6 +31,9 @@ namespace Passports
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<DataBaseContext>(options => options.UseNpgsql(connection));
+            
             services.AddQuartz(q =>
             {
                 q.UseMicrosoftDependencyInjectionJobFactory();
@@ -40,8 +45,8 @@ namespace Passports
                 options.WaitForJobsToComplete = true;
             });
 
-            services.AddSingleton<IPassportsRepository, PassportsRepository>();
-            services.AddSingleton<IPassportsService, PassportsService>();
+            services.AddScoped<IPassportsRepository, PassportsRepository>();
+            services.AddScoped<IPassportsService, PassportsService>();
             
             services.AddControllers();
             services.AddSwaggerGen(c =>

@@ -32,5 +32,14 @@ namespace Passports.Controllers
         {
             return new ArrayList(_passportsServie.GetPassports());
         }
+        /// <summary>
+        /// Список всех записей истории
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("history")]
+        public ActionResult<ArrayList> GetHistory()
+        {
+            return new ArrayList(_passportsServie.GetHistory());
+        }
     }
 }

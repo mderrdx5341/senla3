@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Passports.Models;
 
 namespace Passports
@@ -11,14 +13,10 @@ namespace Passports
     /// </summary>
     internal class PassportsRepository : IPassportsRepository
     {
-        private readonly List<Passport> _passports = new List<Passport>();
-        /// <summary>
-        /// Добавление паспорта в список
-        /// </summary>
-        /// <param name="passport"></param>
-        public void Add(Passport passport)
+        private readonly DataBaseContext _ctx;
+        public PassportsRepository(DataBaseContext ctx)
         {
-            _passports.Add(passport);
+            _ctx = ctx;
         }
         /// <summary>
         /// Получение списка паспортов
@@ -26,7 +24,83 @@ namespace Passports
         /// <returns></returns>
         public List<Passport> GetAll()
         {
-            return _passports;
+            return _ctx.Passports.Include(p => p.History).ToList();
+        }
+        /// <summary>
+        /// Получение списка записей истории
+        /// </summary>
+        /// <returns></returns>
+        public List<PassportHistory> GetHistory()
+        {
+            return _ctx.PassportsHistory.ToList();
+        }
+        /// <summary>
+        /// Обработать список паспортов
+        /// </summary>
+        /// <param name="passports"></param>
+        public void SaveRange(List<Passport> passports)
+        {
+            List<Passport> dbPassports = _ctx.Passports.ToList();
+            foreach (Passport passport in dbPassports)
+            {
+                Passport coincidentPassport = passports.Where(
+                    p => p.Series == passport.Series && p.Number == passport.Number
+                ).FirstOrDefault();
+
+                if (coincidentPassport == null)
+                {
+                    if (passport.IsActive == false)
+                    {
+                        Update(passport, true);
+                    }
+                } 
+                else
+                {
+                    if (passport.IsActive == true)
+                    {
+                        Update(passport, false);                        
+                    }
+                    passports.Remove(coincidentPassport);
+                }
+            }
+
+            foreach (Passport p in passports)
+            {
+                Add(p);
+            }
+            _ctx.SaveChanges();
+        }
+        private void Add(Passport passport)
+        {
+            passport.Id = 0;
+            passport.IsActive = false;
+            passport.History.Add(
+                CreateHistoryRecord(passport, PassportStatus.Add)
+            );
+
+            _ctx.Passports.Add(passport);
+        }
+        private void Update(Passport passport, bool newStatus)
+        {
+            passport.IsActive = newStatus;
+            passport.History.Add(
+                CreateHistoryRecord(
+                    passport,
+                    newStatus ? PassportStatus.Active : PassportStatus.NotActive
+                )
+            );
+            _ctx.Passports.Update(passport);
+        }
+
+        private PassportHistory CreateHistoryRecord(Passport passport, PassportStatus status)
+        {
+            return new PassportHistory()
+            {
+                Id = 0,
+                PassportId = passport.Id,
+                DateTimeChange = DateTime.Today,
+                ChangeType = status
+            };
         }
     }
 }

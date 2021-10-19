@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Passports.Models;
 
 namespace Passports.Services
@@ -13,5 +14,10 @@ namespace Passports.Services
         /// </summary>
         /// <returns></returns>
         public List<Passport> GetPassports();
+        /// <summary>
+        /// Cписок всех записей истории
+        /// </summary>
+        /// <returns></returns>
+        public List<PassportHistory> GetHistory();
     }
 }
