@@ -18,7 +18,7 @@ namespace Passports.Models
         /// <summary>
         /// Таблица с историей изменения паспартов
         /// </summary>
-        public DbSet<PassportHistory> PassportHistory { get; set; }
+        public DbSet<PassportHistory> PassportsHistory { get; set; }
         public DataBaseContext(DbContextOptions<DataBaseContext> options)
             : base(options)
         {

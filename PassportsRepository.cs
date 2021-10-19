@@ -32,7 +32,7 @@ namespace Passports
         /// <returns></returns>
         public List<PassportHistory> GetHistory()
         {
-            return _ctx.PassportHistory.ToList();
+            return _ctx.PassportsHistory.ToList();
         }
         /// <summary>
         /// Обработать список паспартов
