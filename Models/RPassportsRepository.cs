@@ -10,7 +10,8 @@ namespace Passports.Models
     /// </summary>
     internal class RPassportsRepository : IPassportsRepository
     {
-        private const string ListID = "passports";
+        private const string PassportKeys = "passports";
+        private const string DateKeys = "dates";
         private readonly RedisDataBase _db;
         
         public RPassportsRepository(RedisDataBase db)
@@ -33,7 +34,7 @@ namespace Passports.Models
         /// <returns></returns>
         public List<PassportHistory> GetHistory()
         {
-            throw new NotImplementedException();
+            return _db.GetObjects<PassportHistory>(GetHistoryKeys().ToArray());
         }
 
         /// <summary>
@@ -76,27 +77,29 @@ namespace Passports.Models
         {
             passport.Id = 0;
             passport.IsActive = false;
+            PassportHistory record = CreateHistoryRecord(passport, PassportStatus.Add);
             passport.History.Add(
-                CreateHistoryRecord(passport, PassportStatus.Add)
+                record
             );
             string key = CreateKey(passport);
             AddKey(key);
+            AddHistoryRecord(passport, record);
             _db.SetObject<Passport>(CreateKey(passport), passport);
         }
 
         private void Update(Passport passport, bool newStatus)
         {
             passport.IsActive = newStatus;
-            passport.History.Add(
-                CreateHistoryRecord(
+            PassportHistory record = CreateHistoryRecord(
                     passport,
                     newStatus ? PassportStatus.Active : PassportStatus.NotActive
-                )
             );
-
+            passport.History.Add(
+               record
+            );
+            AddHistoryRecord(passport, record);
             _db.SetObject<Passport>(CreateKey(passport), passport);
         }
-
         private PassportHistory CreateHistoryRecord(Passport passport, PassportStatus status)
         {
             return new PassportHistory()
@@ -107,19 +110,17 @@ namespace Passports.Models
                 ChangeType = status
             };
         }
-
         private string CreateKey(Passport passport)
         {
             return passport.Series + "-" + passport.Number;
         }
 
-
         private HashSet<string> GetKeys()
         {
             HashSet<string> keys = new HashSet<string>();
-            if (_db.KeyExists(ListID))
+            if (_db.KeyExists(PassportKeys))
             {
-                keys = _db.GetObject<HashSet<string>>(ListID);
+                keys = _db.GetObject<HashSet<string>>(PassportKeys);
             }
             return keys;
         }
@@ -128,7 +129,36 @@ namespace Passports.Models
         {
             HashSet<string> keys = GetKeys();
             keys.Add(key);
-            _db.SetObject<HashSet<string>>(ListID, keys);
+            _db.SetObject<HashSet<string>>(PassportKeys, keys);
+        }
+
+        private HashSet<string> GetHistoryKeys()
+        {
+            HashSet<string> keys = new HashSet<string>();
+            if (_db.KeyExists(DateKeys))
+            {
+                keys = _db.GetObject<HashSet<string>>(DateKeys);
+            }
+            return keys;
+        }
+
+        private void AddHistoryRecord(Passport passport, PassportHistory record)
+        {
+            string key = CreateHistoryKey(passport, record);
+            AddHistoryKey(key);
+            _db.SetObject<PassportHistory>(key, record);
+        }
+
+        private void AddHistoryKey(string key)
+        {
+            HashSet<string> keys = GetHistoryKeys();
+            keys.Add(key);
+            _db.SetObject<HashSet<string>>(DateKeys, keys);
+        }
+
+        private string CreateHistoryKey(Passport passport, PassportHistory passportHistory)
+        {
+            return CreateKey(passport) + " - " + passportHistory.DateTimeChange.ToString();
         }
     }
 }
