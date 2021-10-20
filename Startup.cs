@@ -16,6 +16,7 @@ using Passports.Models;
 using Passports.Services;
 using Quartz;
 using Quartz.Spi;
+using StackExchange.Redis;
 
 namespace Passports
 {
@@ -33,7 +34,10 @@ namespace Passports
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<DataBaseContext>(options => options.UseNpgsql(connection));
-            
+
+            var multiplexer = ConnectionMultiplexer.Connect("localhost");
+            services.AddSingleton<IConnectionMultiplexer>(multiplexer);
+
             services.AddQuartz(q =>
             {
                 q.UseMicrosoftDependencyInjectionJobFactory();
@@ -45,7 +49,9 @@ namespace Passports
                 options.WaitForJobsToComplete = true;
             });
 
-            services.AddScoped<IPassportsRepository, PassportsRepository>();
+            //services.AddScoped<IPassportsRepository, PPassportsRepository>();
+            services.AddScoped<RedisDataBase, RedisDataBase>();
+            services.AddScoped<IPassportsRepository, RPassportsRepository>();
             services.AddScoped<IPassportsService, PassportsService>();
             
             services.AddControllers();
