@@ -24,13 +24,7 @@ namespace Passports.Models
         /// <returns></returns>
         public List<Passport> GetAll()
         {
-            List<Passport> passports = new List<Passport>();
-            foreach (string passportID in GetKeys())
-            {
-                passports.Add(_db.GetObject<Passport>(passportID));
-            }
-
-            return passports;
+            return _db.GetObjects<Passport>(GetKeys().ToArray());
         }
 
         /// <summary>
