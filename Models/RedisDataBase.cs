@@ -60,9 +60,5 @@ namespace Passports.Models
             }
             return objs;
         }
-        ~RedisDataBase()
-        {
-
-        }
     }
 }
