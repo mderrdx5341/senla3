@@ -4,17 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Passports.Models;
 
-namespace Passports
+namespace Passports.Models
 {
     /// <summary>
-    /// Репозиторий с паспортами
+    /// Репозиторий с паспортов работающий с PostgreSQL
     /// </summary>
-    internal class PassportsRepository : IPassportsRepository
+    internal class PPassportsRepository : IPassportsRepository
     {
         private readonly DataBaseContext _ctx;
-        public PassportsRepository(DataBaseContext ctx)
+        public PPassportsRepository(DataBaseContext ctx)
         {
             _ctx = ctx;
         }

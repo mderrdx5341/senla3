@@ -1,7 +1,7 @@
 ﻿using Passports.Models;
 using System.Collections.Generic;
 
-namespace Passports
+namespace Passports.Models
 {
     /// <summary>
     /// Интерфейс репозитория для паспортов
