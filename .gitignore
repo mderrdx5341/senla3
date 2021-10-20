@@ -388,4 +388,7 @@ FodyWeavers.xsd
 .sln.iml
 
 #docker
-/volumes/
+/volumes/**
+!/volumes/**/
+!.gitkeep
+!*.conf
