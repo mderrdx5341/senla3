@@ -15,9 +15,9 @@ namespace Passports.Models
     {
         private readonly IDatabase _db;
 
-        public RedisDataBase(IConnectionMultiplexer redis)
+        public RedisDataBase(IConnectionMultiplexer redis, int databaseIndex = -1)
         {
-            _db = redis.GetDatabase();
+            _db = redis.GetDatabase(databaseIndex);
         }
 
         /// <summary>
@@ -50,6 +50,19 @@ namespace Passports.Models
         public T GetObject<T>(string key)
         {
             return JsonSerializer.Deserialize<T>(_db.StringGet(key));
+        }
+        public List<T> GetObjects<T>(string[] keys)
+        {
+            RedisKey[] convertedKeys = Array.ConvertAll(keys, key => (RedisKey)key);
+            List<T> objs = new List<T>();
+            foreach (string obJSON in _db.StringGet(convertedKeys)) {
+                 objs.Add(JsonSerializer.Deserialize<T>(obJSON));
+            }
+            return objs;
+        }
+        ~RedisDataBase()
+        {
+
         }
     }
 }
