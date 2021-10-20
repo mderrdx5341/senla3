@@ -51,6 +51,13 @@ namespace Passports.Models
         {
             return JsonSerializer.Deserialize<T>(_db.StringGet(key));
         }
+
+        /// <summary>
+        /// Возвращает список объектов из JSON
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="keys"></param>
+        /// <returns></returns>
         public List<T> GetObjects<T>(string[] keys)
         {
             RedisKey[] convertedKeys = Array.ConvertAll(keys, key => (RedisKey)key);

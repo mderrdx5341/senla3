@@ -100,6 +100,7 @@ namespace Passports.Models
             AddHistoryRecord(passport, record);
             _db.SetObject<Passport>(CreateKey(passport), passport);
         }
+
         private PassportHistory CreateHistoryRecord(Passport passport, PassportStatus status)
         {
             return new PassportHistory()
@@ -110,6 +111,7 @@ namespace Passports.Models
                 ChangeType = status
             };
         }
+
         private string CreateKey(Passport passport)
         {
             return passport.Series + "-" + passport.Number;
