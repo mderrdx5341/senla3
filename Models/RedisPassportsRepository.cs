@@ -84,7 +84,7 @@ namespace Passports.Models
             string key = CreateKey(passport);
             AddKey(key);
             AddHistoryRecord(passport, record);
-            _db.SetObject<Passport>(CreateKey(passport), passport);
+            _db.SetObject<Passport>(key, passport);
         }
 
         private void Update(Passport passport, bool newStatus)
