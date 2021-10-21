@@ -12,7 +12,6 @@ namespace Passports.Models
     internal class PassportsRepositoryFactory : IPassportsRepositoryFactory
     {
         private readonly Dictionary<string, IPassportsRepository> _passprortRepositories = new Dictionary<string, IPassportsRepository>();
-        private readonly List<string> _repositoriesNames = new List<string>();
         private readonly string _defaultRepositoryName;
 
         public PassportsRepositoryFactory(IEnumerable<IPassportsRepository> passprortRepositories, IConfiguration configuration)
@@ -20,7 +19,6 @@ namespace Passports.Models
             _defaultRepositoryName = configuration["Database"];
             foreach (IPassportsRepository repository in passprortRepositories)
             {
-                _repositoriesNames.Add(repository.Name);
                 _passprortRepositories.Add(repository.Name, repository);
             }
         }
@@ -31,7 +29,7 @@ namespace Passports.Models
         /// <returns></returns>
         public List<string> GetRepositoriesNames()
         {
-            return _repositoriesNames;
+            return _passprortRepositories.Keys.ToList();
         }
 
         /// <summary>
@@ -70,7 +68,7 @@ namespace Passports.Models
 
         private string Variants()
         {
-            return String.Join(',', _repositoriesNames);
+            return String.Join(',', _passprortRepositories.Keys);
         }
     }
 }
