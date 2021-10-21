@@ -119,12 +119,7 @@ namespace Passports.Models
 
         private HashSet<string> GetKeys()
         {
-            HashSet<string> keys = new HashSet<string>();
-            if (_db.KeyExists(PassportKeys))
-            {
-                keys = _db.GetObject<HashSet<string>>(PassportKeys);
-            }
-            return keys;
+            return GetSet(PassportKeys);
         }
 
         private void AddKey(string key)
@@ -136,12 +131,7 @@ namespace Passports.Models
 
         private HashSet<string> GetHistoryKeys()
         {
-            HashSet<string> keys = new HashSet<string>();
-            if (_db.KeyExists(DateKeys))
-            {
-                keys = _db.GetObject<HashSet<string>>(DateKeys);
-            }
-            return keys;
+            return GetSet(DateKeys);
         }
 
         private void AddHistoryRecord(Passport passport, PassportHistory record)
@@ -161,6 +151,16 @@ namespace Passports.Models
         private string CreateHistoryKey(Passport passport, PassportHistory passportHistory)
         {
             return CreateKey(passport) + " - " + passportHistory.DateTimeChange.ToString();
+        }
+
+        private HashSet<string> GetSet(string name)
+        {
+            HashSet<string> keys = new HashSet<string>();
+            if (_db.KeyExists(name))
+            {
+                keys = _db.GetObject<HashSet<string>>(name);
+            }
+            return keys;
         }
     }
 }
