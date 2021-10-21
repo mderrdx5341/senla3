@@ -8,7 +8,7 @@ namespace Passports.Models
     /// <summary>
     /// Реализация алгоритма сохранения паспортов
     /// </summary>
-    internal class SaverPassport : ISaverPassports
+    internal class SaverPassports : ISaverPassports
     {
         /// <summary>
         /// Сохранение паспортов
