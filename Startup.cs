@@ -43,6 +43,8 @@ namespace Passports
             services.AddDbContext<DataBaseContext>(options => options.UseNpgsql(connection));
             services.AddScoped<IPassportsRepository, PostgrePassportsRepository>();
 
+            services.AddScoped<ISaverPassports, SaverPassport>();
+
             services.AddScoped<IPassportsRepositoryFactory, PassportsRepositoryFactory>();
 
             services.AddQuartz(q =>

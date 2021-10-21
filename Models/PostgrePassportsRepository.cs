@@ -13,8 +13,12 @@ namespace Passports.Models
     internal class PostgrePassportsRepository : IPassportsRepository
     {
         private readonly DataBaseContext _ctx;
-        public PostgrePassportsRepository(DataBaseContext ctx)
+        private readonly ISaverPassports _saverPassport;
+        private bool isEnabledSave = true;
+
+        public PostgrePassportsRepository(DataBaseContext ctx, ISaverPassports sp)
         {
+            _saverPassport = sp;
             _ctx = ctx;
         }
 
@@ -28,7 +32,7 @@ namespace Passports.Models
         /// <returns></returns>
         public List<Passport> GetAll()
         {
-            return _ctx.Passports.Include(p => p.History).ToList();
+            return _ctx.Passports.ToList();
         }
         /// <summary>
         /// Получение списка записей истории
@@ -44,37 +48,17 @@ namespace Passports.Models
         /// <param name="passports"></param>
         public void SaveRange(List<Passport> passports)
         {
-            List<Passport> dbPassports = _ctx.Passports.ToList();
-            foreach (Passport passport in dbPassports)
-            {
-                Passport coincidentPassport = passports.Where(
-                    p => p.Series == passport.Series && p.Number == passport.Number
-                ).FirstOrDefault();
-
-                if (coincidentPassport == null)
-                {
-                    if (passport.IsActive == false)
-                    {
-                        Update(passport, true);
-                    }
-                } 
-                else
-                {
-                    if (passport.IsActive == true)
-                    {
-                        Update(passport, false);                        
-                    }
-                    passports.Remove(coincidentPassport);
-                }
-            }
-
-            foreach (Passport p in passports)
-            {
-                Add(p);
-            }
+            isEnabledSave = false;
+            _saverPassport.Save(this, passports);
             _ctx.SaveChanges();
+            isEnabledSave = true;
         }
-        private void Add(Passport passport)
+
+        /// <summary>
+        /// Добавить паспорт
+        /// </summary>
+        /// <param name="passport"></param>
+        public void Add(Passport passport)
         {
             passport.Id = 0;
             passport.IsActive = false;
@@ -83,8 +67,18 @@ namespace Passports.Models
             );
 
             _ctx.Passports.Add(passport);
+            if (isEnabledSave)
+            {
+                _ctx.SaveChanges();
+            }
         }
-        private void Update(Passport passport, bool newStatus)
+
+        /// <summary>
+        /// Обновить паспорт
+        /// </summary>
+        /// <param name="passport"></param>
+        /// <param name="newStatus"></param>
+        public void Update(Passport passport, bool newStatus)
         {
             passport.IsActive = newStatus;
             passport.History.Add(
@@ -94,6 +88,10 @@ namespace Passports.Models
                 )
             );
             _ctx.Passports.Update(passport);
+            if (isEnabledSave)
+            {
+                _ctx.SaveChanges();
+            }
         }
 
         private PassportHistory CreateHistoryRecord(Passport passport, PassportStatus status)

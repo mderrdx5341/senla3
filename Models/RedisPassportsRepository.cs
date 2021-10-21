@@ -13,9 +13,11 @@ namespace Passports.Models
         private const string PassportKeys = "passports";
         private const string DateKeys = "dates";
         private readonly RedisDataBase _db;
-        
-        public RedisPassportsRepository(RedisDataBase db)
+        private readonly ISaverPassports _saverPassport;
+
+        public RedisPassportsRepository(RedisDataBase db, ISaverPassports sp)
         {
+            _saverPassport = sp;
             _db = db;
         }
 
@@ -47,37 +49,14 @@ namespace Passports.Models
         /// <param name="passports"></param>
         public void SaveRange(List<Passport> passports)
         {
-            List<Passport> dbPassports = GetAll();
-            foreach (Passport passport in dbPassports)
-            {
-                Passport coincidentPassport = passports.Where(
-                    p => p.Series == passport.Series && p.Number == passport.Number
-                ).FirstOrDefault();
-
-                if (coincidentPassport == null)
-                {
-                    if (passport.IsActive == false)
-                    {
-                        Update(passport, true);
-                    }
-                }
-                else
-                {
-                    if (passport.IsActive == true)
-                    {
-                        Update(passport, false);
-                    }
-                    passports.Remove(coincidentPassport);
-                }
-            }
-
-            foreach (Passport p in passports)
-            {
-                Add(p);
-            }
+            _saverPassport.Save(this, passports);
         }
 
-        private void Add(Passport passport)
+        /// <summary>
+        /// Добавить паспорт
+        /// </summary>
+        /// <param name="passport"></param>
+        public void Add(Passport passport)
         {
             passport.Id = 0;
             passport.IsActive = false;
@@ -91,7 +70,12 @@ namespace Passports.Models
             _db.SetObject<Passport>(key, passport);
         }
 
-        private void Update(Passport passport, bool newStatus)
+        /// <summary>
+        /// Обновить паспорт
+        /// </summary>
+        /// <param name="passport"></param>
+        /// <param name="newStatus"></param>
+        public void Update(Passport passport, bool newStatus)
         {
             passport.IsActive = newStatus;
             PassportHistory record = CreateHistoryRecord(

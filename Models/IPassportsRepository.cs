@@ -26,6 +26,19 @@ namespace Passports.Models
         public List<PassportHistory> GetHistory();
 
         /// <summary>
+        /// Добавить паспорт
+        /// </summary>
+        /// <param name="passport"></param>
+        public void Add(Passport passport);
+
+        /// <summary>
+        /// Обновить паспорт
+        /// </summary>
+        /// <param name="passport"></param>
+        /// <param name="newStatus"></param>
+        public void Update(Passport passport, bool newStatus);
+
+        /// <summary>
         /// Обработать список паспортов
         /// </summary>
         /// <param name="passports"></param>
