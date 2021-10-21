@@ -12,14 +12,26 @@ namespace Passports.Models
     internal class PassportsRepositoryFactory : IPassportsRepositoryFactory
     {
         private readonly Dictionary<string, IPassportsRepository> _passprortRepositories = new Dictionary<string, IPassportsRepository>();
+        private readonly List<string> _repositoriesNames = new List<string>();
         private readonly string _defaultRepositoryName;
+
         public PassportsRepositoryFactory(IEnumerable<IPassportsRepository> passprortRepositories, IConfiguration configuration)
         {
             _defaultRepositoryName = configuration["Database"];
             foreach (IPassportsRepository repository in passprortRepositories)
             {
+                _repositoriesNames.Add(repository.Name);
                 _passprortRepositories.Add(repository.Name, repository);
             }
+        }
+
+        /// <summary>
+        /// Возвращает список имен репозитори
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetRepositoriesNames()
+        {
+            return _repositoriesNames;
         }
 
         /// <summary>
@@ -33,8 +45,8 @@ namespace Passports.Models
                 return GetByName(_defaultRepositoryName);
             }
             catch(Exception)
-            { 
-                throw new Exception($"Not database selected. Use option \"Database\": \"PostgreSQL\" or \"Database\": \"Redis\" in appsettings.json");
+            {
+                throw new Exception($"Not database selected. Use option \"Database\" in appsettings.json. variants {Variants()}");
             }
         }
 
@@ -51,8 +63,14 @@ namespace Passports.Models
             }
             catch(Exception)
             {
-                throw new Exception($"PassportsRepository \"{name}\" does not exist");
+                
+                throw new Exception($"PassportsRepository \"{name}\" does not exist. variants {Variants()}");
             }
+        }
+
+        private string Variants()
+        {
+            return String.Join(',', _repositoriesNames);
         }
     }
 }

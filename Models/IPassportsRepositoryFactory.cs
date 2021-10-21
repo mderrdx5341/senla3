@@ -11,6 +11,12 @@ namespace Passports.Models
     internal interface IPassportsRepositoryFactory
     {
         /// <summary>
+        /// Возвращает список имен репозиториев
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetRepositoriesNames();
+
+        /// <summary>
         /// Возвращает репозиторий по имени базы данных
         /// </summary>
         /// <param name="name"></param>
