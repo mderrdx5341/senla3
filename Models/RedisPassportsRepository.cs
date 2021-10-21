@@ -145,7 +145,7 @@ namespace Passports.Models
 
         private void AddHistoryKey(string key)
         {
-            AddValueToSet(DateKeys, key);
+            AddValueToDataset(DateKeys, key);
         }
 
         private string CreateHistoryKey(Passport passport, PassportHistory passportHistory)
