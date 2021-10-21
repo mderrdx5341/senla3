@@ -32,12 +32,21 @@ namespace Passports
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<DataBaseContext>(options => options.UseNpgsql(connection));
+            /*            if (Configuration["Database"] == "Redis")
+                        {
+                            var multiplexer = ConnectionMultiplexer.Connect("localhost");
+                            services.AddSingleton<IConnectionMultiplexer>(multiplexer);
+                            services.AddScoped<RedisDataBase, RedisDataBase>();
+                            services.AddScoped<IPassportsRepository, RedisPassportsRepository>();
+                        }
+                        if (Configuration["Database"] == "PostgreSQL")
+                        {
+                            string connection = Configuration.GetConnectionString("DefaultConnection");
+                            services.AddDbContext<DataBaseContext>(options => options.UseNpgsql(connection));
+                            services.AddScoped<IPassportsRepository, PostgrePassportsRepository>();
+                        }*/
 
-            var multiplexer = ConnectionMultiplexer.Connect("localhost");
-            services.AddSingleton<IConnectionMultiplexer>(multiplexer);
-
+            services.InitDataBase(Configuration);
             services.AddQuartz(q =>
             {
                 q.UseMicrosoftDependencyInjectionJobFactory();
@@ -49,9 +58,6 @@ namespace Passports
                 options.WaitForJobsToComplete = true;
             });
 
-            //services.AddScoped<IPassportsRepository, PostgrePassportsRepository>();
-            services.AddScoped<RedisDataBase, RedisDataBase>();
-            services.AddScoped<IPassportsRepository, RedisPassportsRepository>();
             services.AddScoped<IPassportsService, PassportsService>();
             
             services.AddControllers();
