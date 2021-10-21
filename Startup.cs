@@ -31,18 +31,11 @@ namespace Passports
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            //init Redis
-            var multiplexer = ConnectionMultiplexer.Connect("localhost");
-            services.AddSingleton<IConnectionMultiplexer>(multiplexer);
+        {         
             services.AddScoped<RedisDataBase, RedisDataBase>();
             services.AddScoped<IPassportsRepository, RedisPassportsRepository>();
-
-            //init PostgreSQL
-            string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<DataBaseContext>(options => options.UseNpgsql(connection));
+            services.AddScoped<DataBaseContext, DataBaseContext>();
             services.AddScoped<IPassportsRepository, PostgrePassportsRepository>();
-
             services.AddScoped<ISaverPassports, SaverPassports>();
 
             services.AddScoped<IPassportsRepositoryFactory, PassportsRepositoryFactory>();

@@ -15,9 +15,10 @@ namespace Passports.Models
     {
         private readonly IDatabase _db;
 
-        public RedisDataBase(IConnectionMultiplexer redis, int databaseIndex = -1)
+        public RedisDataBase()
         {
-            _db = redis.GetDatabase(databaseIndex);
+            var multiplexer = ConnectionMultiplexer.Connect("localhost");
+            _db = multiplexer.GetDatabase();
         }
 
         /// <summary>

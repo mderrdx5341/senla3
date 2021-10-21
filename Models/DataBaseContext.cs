@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Passports.Models
     /// </summary>
     internal class DataBaseContext : DbContext
     {
+        private readonly IConfiguration _configuration;
         /// <summary>
         /// Таблица с паспортами
         /// </summary>
@@ -19,10 +21,21 @@ namespace Passports.Models
         /// Таблица с историей изменения паспартов
         /// </summary>
         public DbSet<PassportHistory> PassportsHistory { get; set; }
-        public DataBaseContext(DbContextOptions<DataBaseContext> options)
-            : base(options)
+
+        public DataBaseContext(IConfiguration configuration)
         {
+            _configuration = configuration;
             Database.EnsureCreated();
+        }
+
+        /// <summary>
+        /// Конфигурация БД postgreSQL
+        /// </summary>
+        /// <param name="optionsBuilder"></param>
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            string connection = _configuration.GetConnectionString("DefaultConnection");
+            optionsBuilder.UseNpgsql(connection);
         }
     }
 }
