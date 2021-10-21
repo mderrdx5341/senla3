@@ -8,13 +8,13 @@ namespace Passports.Models
     /// <summary>
     /// Репозиторий паспортов работающий с Redis
     /// </summary>
-    internal class RPassportsRepository : IPassportsRepository
+    internal class RedisPassportsRepository : IPassportsRepository
     {
         private const string PassportKeys = "passports";
         private const string DateKeys = "dates";
         private readonly RedisDataBase _db;
         
-        public RPassportsRepository(RedisDataBase db)
+        public RedisPassportsRepository(RedisDataBase db)
         {
             _db = db;
         }

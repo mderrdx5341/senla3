@@ -51,7 +51,7 @@ namespace Passports
 
             //services.AddScoped<IPassportsRepository, PPassportsRepository>();
             services.AddScoped<RedisDataBase, RedisDataBase>();
-            services.AddScoped<IPassportsRepository, RPassportsRepository>();
+            services.AddScoped<IPassportsRepository, RedisPassportsRepository>();
             services.AddScoped<IPassportsService, PassportsService>();
             
             services.AddControllers();
