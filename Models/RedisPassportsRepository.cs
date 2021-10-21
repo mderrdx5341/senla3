@@ -124,9 +124,7 @@ namespace Passports.Models
 
         private void AddKey(string key)
         {
-            HashSet<string> keys = GetKeys();
-            keys.Add(key);
-            _db.SetObject<HashSet<string>>(PassportKeys, keys);
+            AddValueToSet(PassportKeys, key);
         }
 
         private HashSet<string> GetHistoryKeys()
@@ -143,9 +141,7 @@ namespace Passports.Models
 
         private void AddHistoryKey(string key)
         {
-            HashSet<string> keys = GetHistoryKeys();
-            keys.Add(key);
-            _db.SetObject<HashSet<string>>(DateKeys, keys);
+            AddValueToSet(DateKeys, key);
         }
 
         private string CreateHistoryKey(Passport passport, PassportHistory passportHistory)
@@ -161,6 +157,13 @@ namespace Passports.Models
                 keys = _db.GetObject<HashSet<string>>(name);
             }
             return keys;
+        }
+
+        private void AddValueToSet(string name, string value)
+        {
+            HashSet<string> keys = GetSet(name);
+            keys.Add(value);
+            _db.SetObject<HashSet<string>>(name, keys);
         }
     }
 }
