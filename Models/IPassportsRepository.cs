@@ -9,15 +9,22 @@ namespace Passports.Models
     internal interface IPassportsRepository
     {
         /// <summary>
+        /// Возвращает имя репозитория
+        /// </summary>
+        public string Name { get; }
+
+        /// <summary>
         /// Получение списка паспартов
         /// </summary>
         /// <returns></returns>
         public List<Passport> GetAll();
+
         /// <summary>
         /// Получение списка записей историй
         /// </summary>
         /// <returns></returns>
         public List<PassportHistory> GetHistory();
+
         /// <summary>
         /// Обработать список паспортов
         /// </summary>

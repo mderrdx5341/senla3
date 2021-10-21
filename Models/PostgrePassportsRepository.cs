@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Passports.Models
 {
     /// <summary>
-    /// Репозиторий с паспортов работающий с PostgreSQL
+    /// Репозиторий паспортов работающий с PostgreSQL
     /// </summary>
     internal class PostgrePassportsRepository : IPassportsRepository
     {
@@ -17,6 +17,11 @@ namespace Passports.Models
         {
             _ctx = ctx;
         }
+
+        /// <summary>
+        /// Возвращает имя репозитория
+        /// </summary>
+        public string Name => "PostgreSQL";
         /// <summary>
         /// Получение списка паспортов
         /// </summary>

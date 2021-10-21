@@ -22,11 +22,12 @@ namespace Passports.Jobs
         private readonly string _url;
         private readonly IPassportsRepository _passportsRepository;
 
-        public DataUpdaterJob(IPassportsRepository passportsRepository , IConfiguration configuration)
+        public DataUpdaterJob(IPassportRepositoryFactory passportsRepositoryFactory, IConfiguration configuration)
         {
-            _passportsRepository = passportsRepository;
+            _passportsRepository = passportsRepositoryFactory.GetDefaultRepository();
             _url = configuration["FileUrl"];
         }
+
         /// <summary>
         /// Запуск обновления
         /// </summary>

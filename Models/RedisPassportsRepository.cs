@@ -20,6 +20,10 @@ namespace Passports.Models
         }
 
         /// <summary>
+        /// Возвращает имя репозитория
+        /// </summary>
+        public string Name => "Redis";
+        /// <summary>
         /// Получение списка паспортов
         /// </summary>
         /// <returns></returns>
