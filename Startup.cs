@@ -49,7 +49,7 @@ namespace Passports
                 options.WaitForJobsToComplete = true;
             });
 
-            //services.AddScoped<IPassportsRepository, PPassportsRepository>();
+            //services.AddScoped<IPassportsRepository, PostgrePassportsRepository>();
             services.AddScoped<RedisDataBase, RedisDataBase>();
             services.AddScoped<IPassportsRepository, RedisPassportsRepository>();
             services.AddScoped<IPassportsService, PassportsService>();

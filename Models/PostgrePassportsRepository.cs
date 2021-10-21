@@ -10,10 +10,10 @@ namespace Passports.Models
     /// <summary>
     /// Репозиторий с паспортов работающий с PostgreSQL
     /// </summary>
-    internal class PPassportsRepository : IPassportsRepository
+    internal class PostgrePassportsRepository : IPassportsRepository
     {
         private readonly DataBaseContext _ctx;
-        public PPassportsRepository(DataBaseContext ctx)
+        public PostgrePassportsRepository(DataBaseContext ctx)
         {
             _ctx = ctx;
         }
