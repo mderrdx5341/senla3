@@ -13,11 +13,11 @@ namespace Passports.Models
         private const string PassportKeys = "passports";
         private const string DateKeys = "dates";
         private readonly RedisDataBase _db;
-        private readonly ISaverPassports _saverPassport;
+        private readonly ISaverPassports _saverPassports;
 
         public RedisPassportsRepository(RedisDataBase db, ISaverPassports sp)
         {
-            _saverPassport = sp;
+            _saverPassports = sp;
             _db = db;
         }
 
@@ -49,7 +49,7 @@ namespace Passports.Models
         /// <param name="passports"></param>
         public void SaveRange(List<Passport> passports)
         {
-            _saverPassport.Save(this, passports);
+            _saverPassports.Save(this, passports);
         }
 
         /// <summary>

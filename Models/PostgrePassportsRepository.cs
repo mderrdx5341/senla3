@@ -13,12 +13,12 @@ namespace Passports.Models
     internal class PostgrePassportsRepository : IPassportsRepository
     {
         private readonly DataBaseContext _ctx;
-        private readonly ISaverPassports _saverPassport;
+        private readonly ISaverPassports _saverPassports;
         private bool isEnabledSave = true;
 
         public PostgrePassportsRepository(DataBaseContext ctx, ISaverPassports sp)
         {
-            _saverPassport = sp;
+            _saverPassports = sp;
             _ctx = ctx;
         }
 
@@ -49,7 +49,7 @@ namespace Passports.Models
         public void SaveRange(List<Passport> passports)
         {
             isEnabledSave = false;
-            _saverPassport.Save(this, passports);
+            _saverPassports.Save(this, passports);
             _ctx.SaveChanges();
             isEnabledSave = true;
         }
