@@ -13,7 +13,7 @@ namespace Passports.Services
     {
         private readonly IPassportsRepository _passportsRepository;
 
-        public PassportsService(IPassportRepositoryFactory passportsRepositoryFactory)
+        public PassportsService(IPassportsRepositoryFactory passportsRepositoryFactory)
         {
             _passportsRepository = passportsRepositoryFactory.GetDefaultRepository();
         }

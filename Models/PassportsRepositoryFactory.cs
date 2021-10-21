@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace Passports.Models
 {
-    internal class PassportRepositoryFactory : IPassportRepositoryFactory
+    /// <summary>
+    /// Фабрика для репозиториев с пасортами
+    /// </summary>
+    internal class PassportsRepositoryFactory : IPassportsRepositoryFactory
     {
         private readonly Dictionary<string, IPassportsRepository> _passprortRepositories = new Dictionary<string, IPassportsRepository>();
         private readonly string _defaultRepositoryName;
-        public PassportRepositoryFactory(IEnumerable<IPassportsRepository> passprortRepositories, IConfiguration configuration)
+        public PassportsRepositoryFactory(IEnumerable<IPassportsRepository> passprortRepositories, IConfiguration configuration)
         {
             _defaultRepositoryName = configuration["Database"];
             foreach (IPassportsRepository repository in passprortRepositories)

@@ -8,7 +8,7 @@ namespace Passports.Models
     /// <summary>
     /// Интерфейс для фабрик паспортов
     /// </summary>
-    internal interface IPassportRepositoryFactory
+    internal interface IPassportsRepositoryFactory
     {
         /// <summary>
         /// Возвращает репозиторий по имени базы данных
