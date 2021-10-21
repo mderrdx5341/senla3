@@ -29,7 +29,7 @@ namespace Passports.Models
         /// <returns></returns>
         public List<Passport> GetAll()
         {
-            return _db.GetObjects<Passport>(GetKeys().ToArray());
+            return _db.GetObjects<Passport>(GetAllPassportsKeys().ToArray());
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Passports.Models
                 record
             );
             string key = CreateKey(passport);
-            AddKey(key);
+            AddPassportKey(key);
             AddHistoryRecord(passport, record);
             _db.SetObject<Passport>(key, passport);
         }
@@ -121,12 +121,12 @@ namespace Passports.Models
             return passport.Series + "-" + passport.Number;
         }
 
-        private HashSet<string> GetKeys()
+        private HashSet<string> GetAllPassportsKeys()
         {
             return GetDataset(PassportKeys);
         }
 
-        private void AddKey(string key)
+        private void AddPassportKey(string key)
         {
             AddValueToDataset(PassportKeys, key);
         }
