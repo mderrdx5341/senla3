@@ -34,7 +34,7 @@ namespace Passports.Models
         /// <param name="optionsBuilder"></param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connection = _configuration.GetConnectionString("DefaultConnection");
+            string connection = _configuration.GetConnectionString("PostgreDefaultConnection");
             optionsBuilder.UseNpgsql(connection);
         }
     }

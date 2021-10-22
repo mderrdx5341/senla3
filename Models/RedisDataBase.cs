@@ -18,7 +18,7 @@ namespace Passports.Models
 
         public RedisDataBase(IConfiguration configuration)
         {
-            var multiplexer = ConnectionMultiplexer.Connect(configuration["RedisServer"]);
+            var multiplexer = ConnectionMultiplexer.Connect(configuration.GetConnectionString("RedisDefaultConnection"));
             _db = multiplexer.GetDatabase();
         }
 
