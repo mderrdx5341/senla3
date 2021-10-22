@@ -392,3 +392,6 @@ FodyWeavers.xsd
 !/volumes/**/
 !.gitkeep
 !*.conf
+
+#development config
+appsettings.development.json
