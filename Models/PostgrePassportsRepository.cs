@@ -12,11 +12,11 @@ namespace Passports.Models
     /// </summary>
     internal class PostgrePassportsRepository : IPassportsRepository
     {
-        private readonly DataBaseContext _ctx;
+        private readonly PostgreDataBase _ctx;
         private readonly ISaverPassports _saverPassports;
         private bool isEnabledSave = true;
 
-        public PostgrePassportsRepository(DataBaseContext ctx, ISaverPassports sp)
+        public PostgrePassportsRepository(PostgreDataBase ctx, ISaverPassports sp)
         {
             _saverPassports = sp;
             _ctx = ctx;

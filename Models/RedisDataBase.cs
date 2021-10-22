@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.Configuration;
 
 namespace Passports.Models
 {
@@ -15,9 +16,9 @@ namespace Passports.Models
     {
         private readonly IDatabase _db;
 
-        public RedisDataBase()
+        public RedisDataBase(IConfiguration configuration)
         {
-            var multiplexer = ConnectionMultiplexer.Connect("localhost");
+            var multiplexer = ConnectionMultiplexer.Connect(configuration["RedisServer"]);
             _db = multiplexer.GetDatabase();
         }
 

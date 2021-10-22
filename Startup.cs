@@ -34,7 +34,7 @@ namespace Passports
         {         
             services.AddScoped<RedisDataBase>();
             services.AddScoped<IPassportsRepository, RedisPassportsRepository>();
-            services.AddScoped<DataBaseContext>();
+            services.AddScoped<PostgreDataBase>();
             services.AddScoped<IPassportsRepository, PostgrePassportsRepository>();
             services.AddScoped<ISaverPassports, SaverPassports>();
 

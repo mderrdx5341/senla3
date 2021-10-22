@@ -10,7 +10,7 @@ namespace Passports.Models
     /// <summary>
     /// Объект для работы с базой данных
     /// </summary>
-    internal class DataBaseContext : DbContext
+    internal class PostgreDataBase : DbContext
     {
         private readonly IConfiguration _configuration;
         /// <summary>
@@ -22,7 +22,7 @@ namespace Passports.Models
         /// </summary>
         public DbSet<PassportHistory> PassportsHistory { get; set; }
 
-        public DataBaseContext(IConfiguration configuration)
+        public PostgreDataBase(IConfiguration configuration)
         {
             _configuration = configuration;
             Database.EnsureCreated();
