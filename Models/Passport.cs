@@ -56,7 +56,7 @@ namespace Passports.Models
         /// </summary>
         public Passport changeStatus()
         {
-            IsActive = IsActive;
+            IsActive = !IsActive;
             History.Add(
                 CreateHistoryRecord(IsActive ? PassportStatus.Active : PassportStatus.NotActive)
             );
