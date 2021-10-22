@@ -26,14 +26,16 @@ namespace Passports.Models
                 {
                     if (passport.IsActive == false)
                     {
-                        repositry.Update(passport, true);
+                        passport.changeStatus();
+                        repositry.Update(passport);
                     }
                 }
                 else
                 {
                     if (passport.IsActive == true)
                     {
-                        repositry.Update(passport, false);
+                        passport.changeStatus();
+                        repositry.Update(passport);
                     }
                     passports.Remove(coincidentPassport);
                 }
@@ -41,6 +43,9 @@ namespace Passports.Models
 
             foreach (Passport p in passports)
             {
+                p.Id = 0;
+                p.IsActive = false;
+                p.AddHistoryRecordWhatsNew();
                 repositry.Add(p);
             }
         }

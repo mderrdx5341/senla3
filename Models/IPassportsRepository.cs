@@ -35,8 +35,7 @@ namespace Passports.Models
         /// Обновить паспорт
         /// </summary>
         /// <param name="passport"></param>
-        /// <param name="newStatus"></param>
-        public void Update(Passport passport, bool newStatus);
+        public void Update(Passport passport);
 
         /// <summary>
         /// Обработать список паспортов

@@ -32,7 +32,7 @@ namespace Passports.Models
         /// <returns></returns>
         public List<Passport> GetAll()
         {
-            return _ctx.Passports.ToList();
+            return _ctx.Passports.Include(p => p.History).ToList();
         }
         /// <summary>
         /// Получение списка записей истории
@@ -60,12 +60,6 @@ namespace Passports.Models
         /// <param name="passport"></param>
         public void Add(Passport passport)
         {
-            passport.Id = 0;
-            passport.IsActive = false;
-            passport.History.Add(
-                CreateHistoryRecord(passport, PassportStatus.Add)
-            );
-
             _ctx.Passports.Add(passport);
             if (isEnabledSave)
             {
@@ -78,31 +72,13 @@ namespace Passports.Models
         /// </summary>
         /// <param name="passport"></param>
         /// <param name="newStatus"></param>
-        public void Update(Passport passport, bool newStatus)
+        public void Update(Passport passport)
         {
-            passport.IsActive = newStatus;
-            passport.History.Add(
-                CreateHistoryRecord(
-                    passport,
-                    newStatus ? PassportStatus.Active : PassportStatus.NotActive
-                )
-            );
             _ctx.Passports.Update(passport);
             if (isEnabledSave)
             {
                 _ctx.SaveChanges();
             }
-        }
-
-        private PassportHistory CreateHistoryRecord(Passport passport, PassportStatus status)
-        {
-            return new PassportHistory()
-            {
-                Id = 0,
-                PassportId = passport.Id,
-                DateTimeChange = DateTime.Today,
-                ChangeType = status
-            };
         }
     }
 }

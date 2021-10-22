@@ -58,15 +58,9 @@ namespace Passports.Models
         /// <param name="passport"></param>
         public void Add(Passport passport)
         {
-            passport.Id = 0;
-            passport.IsActive = false;
-            PassportHistory record = CreateHistoryRecord(passport, PassportStatus.Add);
-            passport.History.Add(
-                record
-            );
             string key = CreateKey(passport);
             AddPassportKey(key);
-            AddHistoryRecord(passport, record);
+            AddHistoryRecord(passport, passport.History.Last());
             _db.SetObject<Passport>(key, passport);
         }
 
@@ -75,29 +69,10 @@ namespace Passports.Models
         /// </summary>
         /// <param name="passport"></param>
         /// <param name="newStatus"></param>
-        public void Update(Passport passport, bool newStatus)
+        public void Update(Passport passport)
         {
-            passport.IsActive = newStatus;
-            PassportHistory record = CreateHistoryRecord(
-                    passport,
-                    newStatus ? PassportStatus.Active : PassportStatus.NotActive
-            );
-            passport.History.Add(
-               record
-            );
-            AddHistoryRecord(passport, record);
+            AddHistoryRecord(passport, passport.History.Last());
             _db.SetObject<Passport>(CreateKey(passport), passport);
-        }
-
-        private PassportHistory CreateHistoryRecord(Passport passport, PassportStatus status)
-        {
-            return new PassportHistory()
-            {
-                Id = 0,
-                PassportId = passport.Id,
-                DateTimeChange = DateTime.Today,
-                ChangeType = status
-            };
         }
 
         private string CreateKey(Passport passport)

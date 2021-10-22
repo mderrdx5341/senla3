@@ -30,5 +30,37 @@ namespace Passports.Models
         /// История изменения паспорта
         /// </summary>
         public List<PassportHistory> History { get; set; } = new List<PassportHistory>();
+
+        /// <summary>
+        /// Добавляет статус что паспорт новый
+        /// </summary>
+        public void AddHistoryRecordWhatsNew()
+        {
+            History.Add(
+                CreateHistoryRecord(PassportStatus.Add)
+            );
+        }
+
+        /// <summary>
+        /// Меняет статус паспорта
+        /// </summary>
+        public void changeStatus()
+        {
+            IsActive = !IsActive;
+            History.Add(
+                CreateHistoryRecord(IsActive ? PassportStatus.Active : PassportStatus.NotActive)
+            );
+        }
+
+        private PassportHistory CreateHistoryRecord(PassportStatus status)
+        {
+            return new PassportHistory()
+            {
+                Id = 0,
+                PassportId = Id,
+                DateTimeChange = DateTime.Today,
+                ChangeType = status
+            };
+        }
     }
 }
