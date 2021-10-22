@@ -8,8 +8,18 @@ namespace Passports.Models
     /// <summary>
     /// Паспорт
     /// </summary>
-    internal class Passport
+    internal class Passport : IPassport
     {
+        public Passport()
+        { }
+        public Passport(PassportDTO p)
+        {
+            Id = p.Id;
+            Series = p.Series;
+            Number = p.Number;
+            IsActive = p.IsActive;
+            History = p.History;
+        }
         /// <summary>
         /// Id паспорта
         /// </summary>
@@ -44,12 +54,14 @@ namespace Passports.Models
         /// <summary>
         /// Меняет статус паспорта
         /// </summary>
-        public void changeStatus()
+        public Passport changeStatus()
         {
-            IsActive = !IsActive;
+            IsActive = IsActive;
             History.Add(
                 CreateHistoryRecord(IsActive ? PassportStatus.Active : PassportStatus.NotActive)
             );
+
+            return this;
         }
 
         private PassportHistory CreateHistoryRecord(PassportStatus status)
@@ -60,6 +72,18 @@ namespace Passports.Models
                 PassportId = Id,
                 DateTimeChange = DateTime.Today,
                 ChangeType = status
+            };
+        }
+
+        public PassportDTO createDTO()
+        {
+            return new PassportDTO()
+            {
+                Id = Id,
+                Series = Series,
+                Number = Number,
+                IsActive = IsActive,
+                History = History
             };
         }
     }

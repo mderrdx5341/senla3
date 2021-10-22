@@ -31,7 +31,7 @@ namespace Passports.Services
         /// Список всех паспортов
         /// </summary>
         /// <returns></returns>
-        public List<Passport> GetPassports()
+        public List<IPassport> GetPassports()
         {
             return _passportsRepository.GetAll();
         }

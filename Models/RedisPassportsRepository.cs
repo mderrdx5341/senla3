@@ -29,9 +29,9 @@ namespace Passports.Models
         /// Получение списка паспортов
         /// </summary>
         /// <returns></returns>
-        public List<Passport> GetAll()
+        public List<IPassport> GetAll()
         {
-            return _db.GetObjects<Passport>(GetAllPassportsKeys().ToArray());
+            return _db.GetObjects<PassportDTO>(GetAllPassportsKeys().ToArray()).ToList<IPassport>();
         }
 
         /// <summary>
@@ -56,12 +56,12 @@ namespace Passports.Models
         /// Добавить паспорт
         /// </summary>
         /// <param name="passport"></param>
-        public void Add(Passport passport)
+        public void Add(IPassport passport)
         {
             string key = CreateKey(passport);
             AddPassportKey(key);
             AddHistoryRecord(passport, passport.History.Last());
-            _db.SetObject<Passport>(key, passport);
+            _db.SetObject<IPassport>(key, passport);
         }
 
         /// <summary>
@@ -69,13 +69,13 @@ namespace Passports.Models
         /// </summary>
         /// <param name="passport"></param>
         /// <param name="newStatus"></param>
-        public void Update(Passport passport)
+        public void Update(IPassport passport)
         {
             AddHistoryRecord(passport, passport.History.Last());
-            _db.SetObject<Passport>(CreateKey(passport), passport);
+            _db.SetObject<IPassport>(CreateKey(passport), passport);
         }
 
-        private string CreateKey(Passport passport)
+        private string CreateKey(IPassport passport)
         {
             return passport.Series + "-" + passport.Number;
         }
@@ -95,7 +95,7 @@ namespace Passports.Models
             return GetDataset(DateKeys);
         }
 
-        private void AddHistoryRecord(Passport passport, PassportHistory record)
+        private void AddHistoryRecord(IPassport passport, PassportHistory record)
         {
             string key = CreateHistoryKey(passport, record);
             AddHistoryKey(key);
@@ -107,7 +107,7 @@ namespace Passports.Models
             AddValueToDataset(DateKeys, key);
         }
 
-        private string CreateHistoryKey(Passport passport, PassportHistory passportHistory)
+        private string CreateHistoryKey(IPassport passport, PassportHistory passportHistory)
         {
             return CreateKey(passport) + " - " + passportHistory.DateTimeChange.ToString();
         }

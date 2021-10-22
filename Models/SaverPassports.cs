@@ -15,8 +15,8 @@ namespace Passports.Models
         /// </summary>
         public void Save(IPassportsRepository repositry, List<Passport> passports)
         {
-            List<Passport> dbPassports = repositry.GetAll();
-            foreach (Passport passport in dbPassports)
+            List<IPassport> dbPassports = repositry.GetAll();
+            foreach (PassportDTO passport in dbPassports)
             {
                 Passport coincidentPassport = passports.Where(
                     p => p.Series == passport.Series && p.Number == passport.Number
@@ -26,16 +26,18 @@ namespace Passports.Models
                 {
                     if (passport.IsActive == false)
                     {
-                        passport.changeStatus();
-                        repositry.Update(passport);
+                        repositry.Update(
+                            new Passport(passport).changeStatus().createDTO()
+                        );
                     }
                 }
                 else
                 {
                     if (passport.IsActive == true)
-                    {
-                        passport.changeStatus();
-                        repositry.Update(passport);
+                    {                        
+                        repositry.Update(
+                            new Passport(passport).changeStatus().createDTO()
+                        );
                     }
                     passports.Remove(coincidentPassport);
                 }
@@ -46,7 +48,7 @@ namespace Passports.Models
                 p.Id = 0;
                 p.IsActive = false;
                 p.AddHistoryRecordWhatsNew();
-                repositry.Add(p);
+                repositry.Add(p.createDTO());
             }
         }
     }

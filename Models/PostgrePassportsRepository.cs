@@ -30,9 +30,9 @@ namespace Passports.Models
         /// Получение списка паспортов
         /// </summary>
         /// <returns></returns>
-        public List<Passport> GetAll()
+        public List<IPassport> GetAll()
         {
-            return _ctx.Passports.Include(p => p.History).ToList();
+            return _ctx.Passports.Include(p => p.History).ToList<IPassport>();
         }
         /// <summary>
         /// Получение списка записей истории
@@ -58,9 +58,9 @@ namespace Passports.Models
         /// Добавить паспорт
         /// </summary>
         /// <param name="passport"></param>
-        public void Add(Passport passport)
+        public void Add(IPassport passport)
         {
-            _ctx.Passports.Add(passport);
+            _ctx.Passports.Add((PassportDTO)passport);
             if (isEnabledSave)
             {
                 _ctx.SaveChanges();
@@ -72,9 +72,9 @@ namespace Passports.Models
         /// </summary>
         /// <param name="passport"></param>
         /// <param name="newStatus"></param>
-        public void Update(Passport passport)
+        public void Update(IPassport passport)
         {
-            _ctx.Passports.Update(passport);
+            _ctx.Passports.Update((PassportDTO)passport);
             if (isEnabledSave)
             {
                 _ctx.SaveChanges();

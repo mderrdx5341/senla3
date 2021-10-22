@@ -17,7 +17,7 @@ namespace Passports.Models
         /// Получение списка паспартов
         /// </summary>
         /// <returns></returns>
-        public List<Passport> GetAll();
+        public List<IPassport> GetAll();
 
         /// <summary>
         /// Получение списка записей историй
@@ -29,13 +29,13 @@ namespace Passports.Models
         /// Добавить паспорт
         /// </summary>
         /// <param name="passport"></param>
-        public void Add(Passport passport);
+        public void Add(IPassport passport);
 
         /// <summary>
         /// Обновить паспорт
         /// </summary>
         /// <param name="passport"></param>
-        public void Update(Passport passport);
+        public void Update(IPassport passport);
 
         /// <summary>
         /// Обработать список паспортов

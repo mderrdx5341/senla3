@@ -16,7 +16,7 @@ namespace Passports.Models
         /// <summary>
         /// Таблица с паспортами
         /// </summary>
-        public DbSet<Passport> Passports { get; set; }
+        public DbSet<PassportDTO> Passports { get; set; }
         /// <summary>
         /// Таблица с историей изменения паспартов
         /// </summary>
