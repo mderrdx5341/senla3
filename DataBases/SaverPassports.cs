@@ -28,7 +28,7 @@ namespace Passports.DataBases
                     if (passport.IsActive == false)
                     {
                         repositry.Update(
-                            new Models.Passport(passport).changeStatus().createDTO()
+                            new Models.Passport(passport).changeStatus().ReturnData()
                         );
                     }
                 }
@@ -37,7 +37,7 @@ namespace Passports.DataBases
                     if (passport.IsActive == true)
                     {                        
                         repositry.Update(
-                            new Models.Passport(passport).changeStatus().createDTO()
+                            new Models.Passport(passport).changeStatus().ReturnData()
                         );
                     }
                     passports.Remove(coincidentPassport);
@@ -49,7 +49,7 @@ namespace Passports.DataBases
                 p.Id = 0;
                 p.IsActive = false;
                 p.AddHistoryRecordWhatsNew();
-                repositry.Add(p.createDTO());
+                repositry.Add(p.ReturnData());
             }
         }
     }

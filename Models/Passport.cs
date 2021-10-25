@@ -76,10 +76,9 @@ namespace Passports.Models
             };
         }
 
-        public DataBases.Passport createDTO()
+        public IPassport ReturnData()
         {
-            return new DataBases.Passport()
-            {
+            return new Passport() {
                 Id = Id,
                 Series = Series,
                 Number = Number,
