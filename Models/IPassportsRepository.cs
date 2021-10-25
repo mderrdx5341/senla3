@@ -1,7 +1,8 @@
-﻿using Passports.Models;
+﻿using Passports.DataBases;
+using Passports.Models;
 using System.Collections.Generic;
 
-namespace Passports.Models
+namespace Passports.DataBases
 {
     /// <summary>
     /// Интерфейс репозитория для паспортов
@@ -41,6 +42,6 @@ namespace Passports.Models
         /// Обработать список паспортов
         /// </summary>
         /// <param name="passports"></param>
-        void SaveRange(List<Passport> passports);
+        void SaveRange(List<Models.Passport> passports);
     }
 }

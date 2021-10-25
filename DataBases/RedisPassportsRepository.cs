@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Passports.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Passports.Models
+namespace Passports.DataBases
 {
     /// <summary>
     /// Репозиторий паспортов работающий с Redis
@@ -31,7 +32,7 @@ namespace Passports.Models
         /// <returns></returns>
         public List<IPassport> GetAll()
         {
-            return _db.GetObjects<PassportDTO>(GetAllPassportsKeys().ToArray()).ToList<IPassport>();
+            return _db.GetObjects<Passport>(GetAllPassportsKeys().ToArray()).ToList<IPassport>();
         }
 
         /// <summary>
@@ -47,7 +48,7 @@ namespace Passports.Models
         /// Обработать список паспортов
         /// </summary>
         /// <param name="passports"></param>
-        public void SaveRange(List<Passport> passports)
+        public void SaveRange(List<Models.Passport> passports)
         {
             _saverPassports.Save(this, passports);
         }

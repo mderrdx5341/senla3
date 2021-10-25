@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Passports.Models
+namespace Passports.DataBases
 {
     /// <summary>
     /// Объект для работы с базой данных
@@ -16,7 +16,7 @@ namespace Passports.Models
         /// <summary>
         /// Таблица с паспортами
         /// </summary>
-        public DbSet<PassportDTO> Passports { get; set; }
+        public DbSet<Passport> Passports { get; set; }
         /// <summary>
         /// Таблица с историей изменения паспартов
         /// </summary>

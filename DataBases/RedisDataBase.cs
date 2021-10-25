@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Configuration;
 
-namespace Passports.Models
+namespace Passports.DataBases
 {
     /// <summary>
     /// Класс для работы с Redis

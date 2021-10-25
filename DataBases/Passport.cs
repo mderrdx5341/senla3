@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Passports.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Passports.Models
+namespace Passports.DataBases
 {
     /// <summary>
     /// Паспорт
     /// </summary>
-    internal class PassportDTO : IPassport
+    internal class Passport : IPassport
     {
         /// <summary>
         /// Id паспорта

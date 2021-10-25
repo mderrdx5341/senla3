@@ -4,8 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Passports.Models;
 
-namespace Passports.Models
+namespace Passports.DataBases
 {
     /// <summary>
     /// Репозиторий паспортов работающий с PostgreSQL
@@ -46,7 +47,7 @@ namespace Passports.Models
         /// Обработать список паспортов
         /// </summary>
         /// <param name="passports"></param>
-        public void SaveRange(List<Passport> passports)
+        public void SaveRange(List<Models.Passport> passports)
         {
             isEnabledSave = false;
             _saverPassports.Save(this, passports);
@@ -60,7 +61,7 @@ namespace Passports.Models
         /// <param name="passport"></param>
         public void Add(IPassport passport)
         {
-            _ctx.Passports.Add((PassportDTO)passport);
+            _ctx.Passports.Add((Passport)passport);
             if (isEnabledSave)
             {
                 _ctx.SaveChanges();
@@ -74,7 +75,7 @@ namespace Passports.Models
         /// <param name="newStatus"></param>
         public void Update(IPassport passport)
         {
-            _ctx.Passports.Update((PassportDTO)passport);
+            _ctx.Passports.Update((Passport)passport);
             if (isEnabledSave)
             {
                 _ctx.SaveChanges();

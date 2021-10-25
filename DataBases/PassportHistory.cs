@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Passports.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Passports.Models
+namespace Passports.DataBases
 {
     /// <summary>
     /// Хранит изменене статуса паспорта
     /// </summary>
-    internal class PassportHistory
+    internal class PassportHistory : IPassportHistory
     {
         /// <summary>
         /// Id записи в истори

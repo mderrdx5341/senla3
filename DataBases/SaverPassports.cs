@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Passports.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Passports.Models
+namespace Passports.DataBases
 {     
     /// <summary>
     /// Реализация алгоритма сохранения паспортов
@@ -13,12 +14,12 @@ namespace Passports.Models
         /// <summary>
         /// Сохранение паспортов
         /// </summary>
-        public void Save(IPassportsRepository repositry, List<Passport> passports)
+        public void Save(IPassportsRepository repositry, List<Models.Passport> passports)
         {
             List<IPassport> dbPassports = repositry.GetAll();
-            foreach (PassportDTO passport in dbPassports)
+            foreach (Passport passport in dbPassports)
             {
-                Passport coincidentPassport = passports.Where(
+                Models.Passport coincidentPassport = passports.Where(
                     p => p.Series == passport.Series && p.Number == passport.Number
                 ).FirstOrDefault();
 
@@ -27,7 +28,7 @@ namespace Passports.Models
                     if (passport.IsActive == false)
                     {
                         repositry.Update(
-                            new Passport(passport).changeStatus().createDTO()
+                            new Models.Passport(passport).changeStatus().createDTO()
                         );
                     }
                 }
@@ -36,14 +37,14 @@ namespace Passports.Models
                     if (passport.IsActive == true)
                     {                        
                         repositry.Update(
-                            new Passport(passport).changeStatus().createDTO()
+                            new Models.Passport(passport).changeStatus().createDTO()
                         );
                     }
                     passports.Remove(coincidentPassport);
                 }
             }
 
-            foreach (Passport p in passports)
+            foreach (Models.Passport p in passports)
             {
                 p.Id = 0;
                 p.IsActive = false;

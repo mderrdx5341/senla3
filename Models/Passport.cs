@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Passports.DataBases;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace Passports.Models
     {
         public Passport()
         { }
-        public Passport(PassportDTO p)
+        public Passport(IPassport p)
         {
             Id = p.Id;
             Series = p.Series;
@@ -75,9 +76,9 @@ namespace Passports.Models
             };
         }
 
-        public PassportDTO createDTO()
+        public DataBases.Passport createDTO()
         {
-            return new PassportDTO()
+            return new DataBases.Passport()
             {
                 Id = Id,
                 Series = Series,
