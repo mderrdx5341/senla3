@@ -48,7 +48,7 @@ namespace Passports.DataBases
         /// Обработать список паспортов
         /// </summary>
         /// <param name="passports"></param>
-        public void SaveRange(List<Models.Passport> passports)
+        public void SaveRange(List<IPassport> passports)
         {
             _saverPassports.Save(this, passports);
         }

@@ -41,6 +41,6 @@ namespace Passports.Models
         /// Обработать список паспортов
         /// </summary>
         /// <param name="passports"></param>
-        void SaveRange(List<Models.Passport> passports);
+        void SaveRange(List<IPassport> passports);
     }
 }

@@ -14,12 +14,12 @@ namespace Passports.DataBases
         /// <summary>
         /// Сохранение паспортов
         /// </summary>
-        public void Save(IPassportsRepository repositry, List<Passport> passports)
+        public void Save(IPassportsRepository repositry, List<IPassport> passports)
         {
             List<IPassport> dbPassports = repositry.GetAll();
             foreach (Passport passport in dbPassports)
             {
-                Models.Passport coincidentPassport = passports.Where(
+                IPassport coincidentPassport = passports.Where(
                     p => p.Series == passport.Series && p.Number == passport.Number
                 ).FirstOrDefault();
 
@@ -46,7 +46,7 @@ namespace Passports.DataBases
                 }
             }
 
-            foreach (Models.Passport p in passports)
+            foreach (IPassport p in passports)
             {
                 p.IsActive = false;
                 AddHistoryRecordWhatsNew(p);
@@ -57,7 +57,7 @@ namespace Passports.DataBases
         /// <summary>
         /// Добавляет статус что паспорт новый
         /// </summary>
-        private void AddHistoryRecordWhatsNew(Passport p)
+        private void AddHistoryRecordWhatsNew(IPassport p)
         {
             p.History.Add(
                 CreateHistoryRecord(PassportStatus.Add)
@@ -76,7 +76,7 @@ namespace Passports.DataBases
         /// <summary>
         /// Меняет статус паспорта
         /// </summary>
-        public void ChangeStatus(Passport p)
+        private void ChangeStatus(IPassport p)
         {
             p.IsActive = !p.IsActive;
             p.History.Add(

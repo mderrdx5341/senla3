@@ -27,6 +27,7 @@ namespace Passports.DataBases
         /// Возвращает имя репозитория
         /// </summary>
         public string Name => "PostgreSQL";
+
         /// <summary>
         /// Получение списка паспортов
         /// </summary>
@@ -35,6 +36,7 @@ namespace Passports.DataBases
         {
             return _ctx.Passports.Include(p => p.History).ToList<IPassport>();
         }
+
         /// <summary>
         /// Получение списка записей истории
         /// </summary>
@@ -43,11 +45,12 @@ namespace Passports.DataBases
         {
             return _ctx.PassportsHistory.ToList<IPassportHistory>();
         }
+
         /// <summary>
         /// Обработать список паспортов
         /// </summary>
         /// <param name="passports"></param>
-        public void SaveRange(List<Models.Passport> passports)
+        public void SaveRange(List<IPassport> passports)
         {
             isEnabledSave = false;
             _saverPassports.Save(this, passports);
