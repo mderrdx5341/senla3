@@ -48,7 +48,7 @@ namespace Passports.DataBases
         /// Обработать список паспортов
         /// </summary>
         /// <param name="passports"></param>
-        public void SaveRange(List<IPassport> passports)
+        public void SaveRange(List<Passport> passports)
         {
             _saverPassports.Save(this, passports);
         }
@@ -57,7 +57,7 @@ namespace Passports.DataBases
         /// Добавить паспорт
         /// </summary>
         /// <param name="passport"></param>
-        public void Add(IPassport passport)
+        public void Add(Passport passport)
         {
             string key = CreateKey(passport);
             AddPassportKey(key);
@@ -70,7 +70,7 @@ namespace Passports.DataBases
         /// </summary>
         /// <param name="passport"></param>
         /// <param name="newStatus"></param>
-        public void Update(IPassport passport)
+        public void Update(Passport passport)
         {
             AddHistoryRecord(passport, passport.History.Last());
             _db.SetObject<IPassport>(CreateKey(passport), passport);

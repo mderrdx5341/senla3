@@ -14,12 +14,12 @@ namespace Passports.DataBases
         /// <summary>
         /// Сохранение паспортов
         /// </summary>
-        public void Save(IPassportsRepository repositry, List<IPassport> passports)
+        public void Save(IPassportsRepository repositry, List<Passport> passports)
         {
             List<IPassport> dbPassports = repositry.GetAll();
             foreach (Passport passport in dbPassports)
             {
-                IPassport coincidentPassport = passports.Where(
+                Passport coincidentPassport = passports.Where(
                     p => p.Series == passport.Series && p.Number == passport.Number
                 ).FirstOrDefault();
 
@@ -46,7 +46,7 @@ namespace Passports.DataBases
                 }
             }
 
-            foreach (IPassport p in passports)
+            foreach (Passport p in passports)
             {
                 p.IsActive = false;
                 AddHistoryRecordWhatsNew(p);

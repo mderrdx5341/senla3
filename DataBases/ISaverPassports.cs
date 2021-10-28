@@ -16,6 +16,6 @@ namespace Passports.DataBases
         /// </summary>
         /// <param name="repositry"></param>
         /// <param name="passports"></param>
-        public void Save(IPassportsRepository repositry, List<IPassport> passports);
+        public void Save(IPassportsRepository repositry, List<Passport> passports);
     }
 }

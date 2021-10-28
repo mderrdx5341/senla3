@@ -29,18 +29,18 @@ namespace Passports.Models
         /// Добавить паспорт
         /// </summary>
         /// <param name="passport"></param>
-        public void Add(IPassport passport);
+        public void Add(Passport passport);
 
         /// <summary>
         /// Обновить паспорт
         /// </summary>
         /// <param name="passport"></param>
-        public void Update(IPassport passport);
+        public void Update(Passport passport);
 
         /// <summary>
         /// Обработать список паспортов
         /// </summary>
         /// <param name="passports"></param>
-        void SaveRange(List<IPassport> passports);
+        void SaveRange(List<Passport> passports);
     }
 }
