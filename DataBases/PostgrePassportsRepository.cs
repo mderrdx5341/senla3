@@ -39,9 +39,9 @@ namespace Passports.DataBases
         /// Получение списка записей истории
         /// </summary>
         /// <returns></returns>
-        public List<PassportHistory> GetHistory()
+        public List<IPassportHistory> GetHistory()
         {
-            return _ctx.PassportsHistory.ToList();
+            return _ctx.PassportsHistory.ToList<IPassportHistory>();
         }
         /// <summary>
         /// Обработать список паспортов

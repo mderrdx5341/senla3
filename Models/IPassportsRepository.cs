@@ -1,8 +1,7 @@
-﻿using Passports.DataBases;
-using Passports.Models;
+﻿using Passports.Models;
 using System.Collections.Generic;
 
-namespace Passports.DataBases
+namespace Passports.Models
 {
     /// <summary>
     /// Интерфейс репозитория для паспортов
@@ -24,7 +23,7 @@ namespace Passports.DataBases
         /// Получение списка записей историй
         /// </summary>
         /// <returns></returns>
-        public List<PassportHistory> GetHistory();
+        public List<IPassportHistory> GetHistory();
 
         /// <summary>
         /// Добавить паспорт

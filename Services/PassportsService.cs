@@ -22,7 +22,7 @@ namespace Passports.Services
         /// Список всех записей истории
         /// </summary>
         /// <returns></returns>
-        public List<PassportHistory> GetHistory()
+        public List<IPassportHistory> GetHistory()
         {
             return _passportsRepository.GetHistory();
         }

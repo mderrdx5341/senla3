@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Passports.DataBases
+namespace Passports.Models
 {
     /// <summary>
     /// Хранит изменене статуса паспорта
@@ -12,17 +12,15 @@ namespace Passports.DataBases
     internal class PassportHistory : IPassportHistory
     {
         /// <summary>
-        /// Id записи в истори
+        /// Id записи истории
         /// </summary>
         public int Id { get; set; }
+
         /// <summary>
-        /// Id паспорта
-        /// </summary>
-        public int PassportId { get; set; }
-        /// <summary>
-        /// Дата изменения
+        /// Дата изменения паспорта
         /// </summary>
         public DateTime DateTimeChange { get; set; }
+
         /// <summary>
         /// Тип изменения записи
         /// </summary>

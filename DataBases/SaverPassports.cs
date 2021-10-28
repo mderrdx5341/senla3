@@ -14,7 +14,7 @@ namespace Passports.DataBases
         /// <summary>
         /// Сохранение паспортов
         /// </summary>
-        public void Save(IPassportsRepository repositry, List<Models.Passport> passports)
+        public void Save(IPassportsRepository repositry, List<Passport> passports)
         {
             List<IPassport> dbPassports = repositry.GetAll();
             foreach (Passport passport in dbPassports)
@@ -27,17 +27,19 @@ namespace Passports.DataBases
                 {
                     if (passport.IsActive == false)
                     {
+                        ChangeStatus(passport);
                         repositry.Update(
-                            new Models.Passport(passport).changeStatus().ReturnData()
+                            passport
                         );
                     }
                 }
                 else
                 {
                     if (passport.IsActive == true)
-                    {                        
+                    {
+                        ChangeStatus(passport);
                         repositry.Update(
-                            new Models.Passport(passport).changeStatus().ReturnData()
+                            passport
                         );
                     }
                     passports.Remove(coincidentPassport);
@@ -46,11 +48,41 @@ namespace Passports.DataBases
 
             foreach (Models.Passport p in passports)
             {
-                p.Id = 0;
                 p.IsActive = false;
-                p.AddHistoryRecordWhatsNew();
-                repositry.Add(p.ReturnData());
+                AddHistoryRecordWhatsNew(p);
+                repositry.Add(p);
             }
         }
+
+        /// <summary>
+        /// Добавляет статус что паспорт новый
+        /// </summary>
+        private void AddHistoryRecordWhatsNew(Passport p)
+        {
+            p.History.Add(
+                CreateHistoryRecord(PassportStatus.Add)
+            );
+        }
+
+        private PassportHistory CreateHistoryRecord(PassportStatus status)
+        {
+            return new PassportHistory()
+            {
+                DateTimeChange = DateTime.Today,
+                ChangeType = status
+            };
+        }
+
+        /// <summary>
+        /// Меняет статус паспорта
+        /// </summary>
+        public void ChangeStatus(Passport p)
+        {
+            p.IsActive = !p.IsActive;
+            p.History.Add(
+                CreateHistoryRecord(p.IsActive ? PassportStatus.Active : PassportStatus.NotActive)
+            );
+        }
+
     }
 }

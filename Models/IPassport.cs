@@ -9,7 +9,7 @@ namespace Passports.Models
     internal interface IPassport
     {
         /// <summary>
-        /// Id паспорта
+        /// Id для записи паспорта
         /// </summary>
         public int Id { get; set; }
 

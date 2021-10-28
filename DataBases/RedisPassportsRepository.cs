@@ -39,9 +39,9 @@ namespace Passports.DataBases
         /// Получение списка записей истории
         /// </summary>
         /// <returns></returns>
-        public List<PassportHistory> GetHistory()
+        public List<IPassportHistory> GetHistory()
         {
-            return _db.GetObjects<PassportHistory>(GetHistoryKeys().ToArray());
+            return _db.GetObjects<IPassportHistory>(GetHistoryKeys().ToArray());
         }
 
         /// <summary>
@@ -96,11 +96,11 @@ namespace Passports.DataBases
             return GetDataset(DateKeys);
         }
 
-        private void AddHistoryRecord(IPassport passport, PassportHistory record)
+        private void AddHistoryRecord(IPassport passport, IPassportHistory record)
         {
             string key = CreateHistoryKey(passport, record);
             AddHistoryKey(key);
-            _db.SetObject<PassportHistory>(key, record);
+            _db.SetObject<IPassportHistory>(key, record);
         }
 
         private void AddHistoryKey(string key)
@@ -108,7 +108,7 @@ namespace Passports.DataBases
             AddValueToDataset(DateKeys, key);
         }
 
-        private string CreateHistoryKey(IPassport passport, PassportHistory passportHistory)
+        private string CreateHistoryKey(IPassport passport, IPassportHistory passportHistory)
         {
             return CreateKey(passport) + " - " + passportHistory.DateTimeChange.ToString();
         }

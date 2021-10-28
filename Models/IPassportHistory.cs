@@ -8,17 +8,15 @@ namespace Passports.Models
     interface IPassportHistory
     {
         /// <summary>
-        /// Id записи в истори
+        /// id для записи истории
         /// </summary>
         public int Id { get; set; }
+
         /// <summary>
-        /// Id паспорта
-        /// </summary>
-        public int PassportId { get; set; }
-        /// <summary>
-        /// Дата изменения
+        /// Время изменения записи паспорта
         /// </summary>
         public DateTime DateTimeChange { get; set; }
+
         /// <summary>
         /// Тип изменения записи
         /// </summary>

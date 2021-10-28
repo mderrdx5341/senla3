@@ -32,13 +32,14 @@ namespace Passports
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {         
+        {
             services.AddScoped<RedisDataBase>();
             services.AddScoped<IPassportsRepository, RedisPassportsRepository>();
             services.AddScoped<PostgreDataBase>();
             services.AddScoped<IPassportsRepository, PostgrePassportsRepository>();
             services.AddScoped<ISaverPassports, SaverPassports>();
 
+            services.AddScoped<IPassportHistory, Models.PassportHistory>();
             services.AddScoped<IPassportsRepositoryFactory, PassportsRepositoryFactory>();
 
             services.AddQuartz(q =>
