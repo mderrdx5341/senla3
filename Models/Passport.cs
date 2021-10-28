@@ -8,18 +8,6 @@ namespace Passports.Models
     /// </summary>
     internal class Passport : IPassport
     {
-        public Passport()
-        {
-        }
-
-        public Passport(IPassport p)
-        {
-            Series = p.Series;
-            Number = p.Number;
-            IsActive = p.IsActive;
-            History = p.History;
-        }
-
         /// <summary>
         /// Id для записи паспорта
         /// </summary>
@@ -44,7 +32,5 @@ namespace Passports.Models
         /// История изменения паспорта
         /// </summary>
         public List<PassportHistory> History { get; set; } = new List<PassportHistory>();
-
-
     }
 }
