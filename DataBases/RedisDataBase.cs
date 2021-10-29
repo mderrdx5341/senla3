@@ -85,11 +85,11 @@ namespace Passports.DataBases
         /// <returns></returns>
         public List<T> GetObjects<T>(RedisKey[] keys)
         {
-            List<T> objs = new List<T>();
+            List<T> objsFromJson = new List<T>();
             foreach (string obJSON in _db.StringGet(keys)) {
-                 objs.Add(JsonSerializer.Deserialize<T>(obJSON));
+                objsFromJson.Add(JsonSerializer.Deserialize<T>(obJSON));
             }
-            return objs;
+            return objsFromJson;
         }
     }
 }
