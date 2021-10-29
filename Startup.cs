@@ -39,7 +39,6 @@ namespace Passports
             services.AddScoped<IPassportsRepository, PostgrePassportsRepository>();
             services.AddScoped<ISaverPassports, SaverPassports>();
 
-            services.AddScoped<IPassportHistory, Models.PassportHistory>();
             services.AddScoped<IPassportsRepositoryFactory, PassportsRepositoryFactory>();
 
             services.AddQuartz(q =>
