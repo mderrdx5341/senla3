@@ -23,6 +23,29 @@ namespace Passports.DataBases
         }
 
         /// <summary>
+        /// Добавление значения во множество
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public void SetAddValue(string key, string value)
+        {
+            _db.SetAdd(key, value);
+        }
+
+        /// <summary>
+        /// Возвращает множество как ключи
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public RedisKey[] GetSetValuesAsKeys(string key)
+        {
+            return Array.ConvertAll(
+                _db.SetScan(key).ToArray(),
+                i => (RedisKey)(string)i
+            );
+        }
+
+        /// <summary>
         /// Проверить существование ключа
         /// </summary>
         /// <param name="key"></param>
@@ -60,11 +83,10 @@ namespace Passports.DataBases
         /// <typeparam name="T"></typeparam>
         /// <param name="keys"></param>
         /// <returns></returns>
-        public List<T> GetObjects<T>(string[] keys)
+        public List<T> GetObjects<T>(RedisKey[] keys)
         {
-            RedisKey[] convertedKeys = Array.ConvertAll(keys, key => (RedisKey)key);
             List<T> objs = new List<T>();
-            foreach (string obJSON in _db.StringGet(convertedKeys)) {
+            foreach (string obJSON in _db.StringGet(keys)) {
                  objs.Add(JsonSerializer.Deserialize<T>(obJSON));
             }
             return objs;

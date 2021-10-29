@@ -1,4 +1,5 @@
 ﻿using Passports.Models;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +42,7 @@ namespace Passports.DataBases
         /// <returns></returns>
         public List<IPassportHistory> GetHistory()
         {
-            return _db.GetObjects<IPassportHistory>(GetHistoryKeys().ToArray());
+            return _db.GetObjects<PassportHistory>(GetHistoryKeys().ToArray()).ToList<IPassportHistory>();
         }
 
         /// <summary>
@@ -69,9 +70,9 @@ namespace Passports.DataBases
         /// <param name="passport"></param>
         public void Add(Passport passport)
         {
-            string key = CreateKey(passport);
+            string key = CreatePassportKey(passport);
             AddPassportKey(key);
-            AddHistoryRecord(passport, passport.History.Last());
+            AddHistoryRecord(passport);
             _db.SetObject<IPassport>(key, passport);
         }
 
@@ -79,65 +80,46 @@ namespace Passports.DataBases
         /// Обновить паспорт
         /// </summary>
         /// <param name="passport"></param>
-        /// <param name="newStatus"></param>
         public void Update(Passport passport)
         {
-            AddHistoryRecord(passport, passport.History.Last());
-            _db.SetObject<IPassport>(CreateKey(passport), passport);
+            AddHistoryRecord(passport);
+            _db.SetObject<IPassport>(CreatePassportKey(passport), passport);
         }
 
-        private string CreateKey(IPassport passport)
+        private RedisKey[] GetAllPassportsKeys()
         {
-            return passport.Series + "-" + passport.Number;
-        }
-
-        private HashSet<string> GetAllPassportsKeys()
-        {
-            return GetDataset(PassportKeys);
+            return _db.GetSetValuesAsKeys(PassportKeys);
         }
 
         private void AddPassportKey(string key)
         {
-            AddValueToDataset(PassportKeys, key);
+            _db.SetAddValue(PassportKeys, key);
         }
 
-        private HashSet<string> GetHistoryKeys()
+        private RedisKey[] GetHistoryKeys()
         {
-            return GetDataset(DateKeys);
+            return _db.GetSetValuesAsKeys(DateKeys);
         }
 
-        private void AddHistoryRecord(IPassport passport, IPassportHistory record)
+        private void AddHistoryRecord(IPassport passport)
         {
-            string key = CreateHistoryKey(passport, record);
+            string key = CreateHistoryKey(passport, passport.History.Last());
             AddHistoryKey(key);
-            _db.SetObject<IPassportHistory>(key, record);
+            _db.SetObject<IPassportHistory>(key, passport.History.Last());
         }
 
         private void AddHistoryKey(string key)
         {
-            AddValueToDataset(DateKeys, key);
+            _db.SetAddValue(DateKeys, key);
+        }
+        private string CreatePassportKey(IPassport passport)
+        {
+            return passport.Series + "-" + passport.Number;
         }
 
         private string CreateHistoryKey(IPassport passport, IPassportHistory passportHistory)
         {
-            return CreateKey(passport) + " - " + passportHistory.DateTimeChange.ToString();
-        }
-
-        private HashSet<string> GetDataset(string name)
-        {
-            HashSet<string> keys = new HashSet<string>();
-            if (_db.KeyExists(name))
-            {
-                keys = _db.GetObject<HashSet<string>>(name);
-            }
-            return keys;
-        }
-
-        private void AddValueToDataset(string name, string value)
-        {
-            HashSet<string> keys = GetDataset(name);
-            keys.Add(value);
-            _db.SetObject<HashSet<string>>(name, keys);
+            return CreatePassportKey(passport) + " - " + passportHistory.DateTimeChange.ToString();
         }
     }
 }
