@@ -15,7 +15,6 @@ namespace Passports.DataBases
     {
         private readonly PostgreDataBase _ctx;
         private readonly ISaverPassports _saverPassports;
-        private bool isEnabledSave = true;
 
         public PostgrePassportsRepository(PostgreDataBase ctx, ISaverPassports sp)
         {
@@ -52,7 +51,6 @@ namespace Passports.DataBases
         /// <param name="passports"></param>
         public void SaveRange(List<IPassport> passports)
         {
-            isEnabledSave = false;
             foreach (KeyValuePair<Passport, OperationRepository> passportEntry in _saverPassports.ChangeForDataBase(GetAll(), passports))
             {
                 if (passportEntry.Value == OperationRepository.Add)
@@ -65,7 +63,6 @@ namespace Passports.DataBases
                 }
             }
             _ctx.SaveChanges();
-            isEnabledSave = true;
         }
 
         /// <summary>
@@ -75,10 +72,6 @@ namespace Passports.DataBases
         public void Add(Passport passport)
         {
             _ctx.Passports.Add(passport);
-            if (isEnabledSave)
-            {
-                _ctx.SaveChanges();
-            }
         }
 
         /// <summary>
@@ -89,10 +82,6 @@ namespace Passports.DataBases
         public void Update(Passport passport)
         {
             _ctx.Passports.Update((Passport)passport);
-            if (isEnabledSave)
-            {
-                _ctx.SaveChanges();
-            }
         }
     }
 }
