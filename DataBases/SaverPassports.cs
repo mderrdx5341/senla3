@@ -12,14 +12,15 @@ namespace Passports.DataBases
     internal class SaverPassports : ISaverPassports
     {
         /// <summary>
-        /// Сохранение паспортов
+        /// Формирование списка паспортов для сохранения в репозиторий
         /// </summary>
-        public void Save(IPassportsRepository repositry, List<Passport> passports)
+        public Dictionary<Passport, OperationRepository> ChangeForDataBase(List<IPassport> repositoryPassports, List<IPassport> newPassports)
         {
-            List<IPassport> dbPassports = repositry.GetAll();
-            foreach (Passport passport in dbPassports)
+            Dictionary<Passport, OperationRepository> toRepository = new Dictionary<Passport, OperationRepository>();
+
+            foreach (Passport passport in repositoryPassports)
             {
-                Passport coincidentPassport = passports.Where(
+                IPassport coincidentPassport = newPassports.Where(
                     p => p.Series == passport.Series && p.Number == passport.Number
                 ).FirstOrDefault();
 
@@ -28,9 +29,7 @@ namespace Passports.DataBases
                     if (passport.IsActive == false)
                     {
                         ChangeStatus(passport);
-                        repositry.Update(
-                            passport
-                        );
+                        toRepository.Add(passport, OperationRepository.Update);
                     }
                 }
                 else
@@ -38,20 +37,20 @@ namespace Passports.DataBases
                     if (passport.IsActive == true)
                     {
                         ChangeStatus(passport);
-                        repositry.Update(
-                            passport
-                        );
+                        toRepository.Add(passport, OperationRepository.Update);
                     }
-                    passports.Remove(coincidentPassport);
+                    newPassports.Remove(coincidentPassport);
                 }
             }
 
-            foreach (Passport p in passports)
+            foreach (Passport p in newPassports)
             {
                 p.IsActive = false;
                 AddHistoryRecordWhatsNew(p);
-                repositry.Add(p);
+                toRepository.Add(p, OperationRepository.Add);
             }
+
+            return toRepository;
         }
 
         /// <summary>

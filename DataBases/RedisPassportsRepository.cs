@@ -48,9 +48,19 @@ namespace Passports.DataBases
         /// Обработать список паспортов
         /// </summary>
         /// <param name="passports"></param>
-        public void SaveRange(List<Passport> passports)
+        public void SaveRange(List<IPassport> passports)
         {
-            _saverPassports.Save(this, passports);
+            foreach (KeyValuePair<Passport, OperationRepository> passportEntry in _saverPassports.ChangeForDataBase(GetAll(), passports))
+            {
+                if (passportEntry.Value == OperationRepository.Add)
+                {
+                    Add(passportEntry.Key);
+                }
+                if (passportEntry.Value == OperationRepository.Update)
+                {
+                    Update(passportEntry.Key);
+                }
+            }
         }
 
         /// <summary>

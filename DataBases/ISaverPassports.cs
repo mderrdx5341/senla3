@@ -12,10 +12,11 @@ namespace Passports.DataBases
     internal interface ISaverPassports
     {
         /// <summary>
-        /// Сохранение паспортов
+        /// Формирование списка паспортов для сохранения в репозиторий
         /// </summary>
-        /// <param name="repositry"></param>
-        /// <param name="passports"></param>
-        public void Save(IPassportsRepository repositry, List<Passport> passports);
+        /// <param name="repositoryPassports"></param>
+        /// <param name="newPassports"></param>
+        /// <returns></returns>
+        public Dictionary<Passport, OperationRepository> ChangeForDataBase(List<IPassport> repositoryPassports, List<IPassport> newPassports);
     }
 }
