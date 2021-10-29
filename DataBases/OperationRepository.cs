@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Passports.DataBases
 {
+    /// <summary>
+    /// Список оперций репозитория
+    /// </summary>
     internal enum OperationRepository
     {
         Add,
