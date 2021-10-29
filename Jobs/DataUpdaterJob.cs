@@ -68,7 +68,7 @@ namespace Passports.Jobs
                     );
                 }
                 _passportsRepository.SaveRange(
-                    passports.ConvertAll(p => (IPassport) p)
+                    passports
                 );
             }
         }

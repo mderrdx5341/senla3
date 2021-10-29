@@ -6,7 +6,7 @@ namespace Passports.Models
     /// <summary>
     /// Паспорт
     /// </summary>
-    internal class Passport : IPassport
+    internal class Passport
     {
         /// <summary>
         /// Id для записи паспорта

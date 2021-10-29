@@ -31,25 +31,25 @@ namespace Passports.DataBases
         /// Получение списка паспортов
         /// </summary>
         /// <returns></returns>
-        public List<IPassport> GetAll()
+        public List<Passport> GetAll()
         {
-            return _db.GetObjects<Passport>(GetAllPassportsKeys().ToArray()).ToList<IPassport>();
+            return _db.GetObjects<Passport>(GetAllPassportsKeys().ToArray());
         }
 
         /// <summary>
         /// Получение списка записей истории
         /// </summary>
         /// <returns></returns>
-        public List<IPassportHistory> GetHistory()
+        public List<PassportHistory> GetHistory()
         {
-            return _db.GetObjects<PassportHistory>(GetHistoryKeys().ToArray()).ToList<IPassportHistory>();
+            return _db.GetObjects<PassportHistory>(GetHistoryKeys().ToArray());
         }
 
         /// <summary>
         /// Обработать список паспортов
         /// </summary>
         /// <param name="passports"></param>
-        public void SaveRange(List<IPassport> passports)
+        public void SaveRange(List<Passport> passports)
         {
             foreach (KeyValuePair<Passport, OperationRepository> passportEntry in _saverPassports.ChangeForDataBase(GetAll(), passports))
             {
@@ -73,7 +73,7 @@ namespace Passports.DataBases
             string key = CreatePassportKey(passport);
             AddPassportKey(key);
             AddHistoryRecord(passport);
-            _db.SetObject<IPassport>(key, passport);
+            _db.SetObject<Passport>(key, passport);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Passports.DataBases
         public void Update(Passport passport)
         {
             AddHistoryRecord(passport);
-            _db.SetObject<IPassport>(CreatePassportKey(passport), passport);
+            _db.SetObject<Passport>(CreatePassportKey(passport), passport);
         }
 
         private RedisKey[] GetAllPassportsKeys()
@@ -101,23 +101,23 @@ namespace Passports.DataBases
             return _db.GetSetValuesAsKeys(DateKeys);
         }
 
-        private void AddHistoryRecord(IPassport passport)
+        private void AddHistoryRecord(Passport passport)
         {
             string key = CreateHistoryKey(passport, passport.History.Last());
             AddHistoryKey(key);
-            _db.SetObject<IPassportHistory>(key, passport.History.Last());
+            _db.SetObject<PassportHistory>(key, passport.History.Last());
         }
 
         private void AddHistoryKey(string key)
         {
             _db.SetAddValue(DateKeys, key);
         }
-        private string CreatePassportKey(IPassport passport)
+        private string CreatePassportKey(Passport passport)
         {
             return passport.Series + "-" + passport.Number;
         }
 
-        private string CreateHistoryKey(IPassport passport, IPassportHistory passportHistory)
+        private string CreateHistoryKey(Passport passport, PassportHistory passportHistory)
         {
             return CreatePassportKey(passport) + " - " + passportHistory.DateTimeChange.ToString();
         }

@@ -13,12 +13,12 @@ namespace Passports.Services
         /// Список всех паспортов
         /// </summary>
         /// <returns></returns>
-        public List<IPassport> GetPassports();
+        public List<Passport> GetPassports();
 
         /// <summary>
         /// Cписок всех записей истории
         /// </summary>
         /// <returns></returns>
-        public List<IPassportHistory> GetHistory();
+        public List<PassportHistory> GetHistory();
     }
 }

@@ -31,25 +31,25 @@ namespace Passports.DataBases
         /// Получение списка паспортов
         /// </summary>
         /// <returns></returns>
-        public List<IPassport> GetAll()
+        public List<Passport> GetAll()
         {
-            return _ctx.Passports.Include(p => p.History).ToList<IPassport>();
+            return _ctx.Passports.Include(p => p.History).ToList();
         }
 
         /// <summary>
         /// Получение списка записей истории
         /// </summary>
         /// <returns></returns>
-        public List<IPassportHistory> GetHistory()
+        public List<PassportHistory> GetHistory()
         {
-            return _ctx.PassportsHistory.ToList<IPassportHistory>();
+            return _ctx.PassportsHistory.ToList();
         }
 
         /// <summary>
         /// Обработать список паспортов
         /// </summary>
         /// <param name="passports"></param>
-        public void SaveRange(List<IPassport> passports)
+        public void SaveRange(List<Passport> passports)
         {
             foreach (KeyValuePair<Passport, OperationRepository> passportEntry in _saverPassports.ChangeForDataBase(GetAll(), passports))
             {
