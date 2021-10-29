@@ -27,6 +27,7 @@ namespace Passports.DataBases
         /// Возвращает имя репозитория
         /// </summary>
         public string Name => "Redis";
+
         /// <summary>
         /// Получение списка паспортов
         /// </summary>
@@ -51,7 +52,7 @@ namespace Passports.DataBases
         /// <param name="passports"></param>
         public void SaveRange(List<Passport> passports)
         {
-            foreach (KeyValuePair<Passport, OperationRepository> passportEntry in _saverPassports.ChangeForDataBase(GetAll(), passports))
+            foreach (KeyValuePair<Passport, OperationRepository> passportEntry in _saverPassports.ChangeForRepository(GetAll(), passports))
             {
                 if (passportEntry.Value == OperationRepository.Add)
                 {

@@ -14,7 +14,7 @@ namespace Passports.DataBases
         /// <summary>
         /// Формирование списка паспортов для сохранения в репозиторий
         /// </summary>
-        public Dictionary<Passport, OperationRepository> ChangeForDataBase(List<Passport> repositoryPassports, List<Passport> newPassports)
+        public Dictionary<Passport, OperationRepository> ChangeForRepository(List<Passport> repositoryPassports, List<Passport> newPassports)
         {
             Dictionary<Passport, OperationRepository> toRepository = new Dictionary<Passport, OperationRepository>();
 

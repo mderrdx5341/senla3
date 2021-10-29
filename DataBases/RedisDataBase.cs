@@ -16,9 +16,8 @@ namespace Passports.DataBases
     {
         private readonly IDatabase _db;
 
-        public RedisDataBase(IConfiguration configuration)
+        public RedisDataBase(IConnectionMultiplexer multiplexer)
         {
-            var multiplexer = ConnectionMultiplexer.Connect(configuration.GetConnectionString("RedisDefaultConnection"));
             _db = multiplexer.GetDatabase();
         }
 

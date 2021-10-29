@@ -17,6 +17,6 @@ namespace Passports.DataBases
         /// <param name="repositoryPassports"></param>
         /// <param name="newPassports"></param>
         /// <returns></returns>
-        public Dictionary<Passport, OperationRepository> ChangeForDataBase(List<Passport> repositoryPassports, List<Passport> newPassports);
+        public Dictionary<Passport, OperationRepository> ChangeForRepository(List<Passport> repositoryPassports, List<Passport> newPassports);
     }
 }
