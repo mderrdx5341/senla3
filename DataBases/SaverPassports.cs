@@ -16,7 +16,7 @@ namespace Passports.DataBases
         /// </summary>
         public Dictionary<Passport, OperationRepository> ChangeForRepository(List<Passport> repositoryPassports, List<Passport> newPassports)
         {
-            Dictionary<Passport, OperationRepository> toRepository = new Dictionary<Passport, OperationRepository>();
+            Dictionary<Passport, OperationRepository> passportsForRepository = new Dictionary<Passport, OperationRepository>();
 
             foreach (Passport passport in repositoryPassports)
             {
@@ -32,7 +32,7 @@ namespace Passports.DataBases
                 if (passport.IsActive == hasCoincidentPassport)
                 {
                     ChangeStatus(passport);
-                    toRepository.Add(passport, OperationRepository.Update);                    
+                    passportsForRepository.Add(passport, OperationRepository.Update);                    
                 }
             }
 
@@ -40,10 +40,10 @@ namespace Passports.DataBases
             {
                 p.IsActive = false;
                 AddHistoryRecordWhatsNew(p);
-                toRepository.Add(p, OperationRepository.Add);
+                passportsForRepository.Add(p, OperationRepository.Add);
             }
 
-            return toRepository;
+            return passportsForRepository;
         }
 
         /// <summary>
