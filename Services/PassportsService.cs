@@ -19,6 +19,24 @@ namespace Passports.Services
         }
 
         /// <summary>
+        /// Список всех паспортов
+        /// </summary>
+        /// <returns></returns>
+        public List<Passport> GetPassports()
+        {
+            return _passportsRepository.GetAll();
+        }
+
+        /// <summary>
+        /// Список всех паспортов
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Passport>> GetPassportsAsync()
+        {
+            return await _passportsRepository.GetAllAsync();
+        }
+
+        /// <summary>
         /// Список всех записей истории
         /// </summary>
         /// <returns></returns>
@@ -28,12 +46,12 @@ namespace Passports.Services
         }
 
         /// <summary>
-        /// Список всех паспортов
+        /// Список всех записей истории
         /// </summary>
         /// <returns></returns>
-        public List<Passport> GetPassports()
+        public async Task<List<PassportHistory>> GetHistoryAsync()
         {
-            return _passportsRepository.GetAll();
+            return await _passportsRepository.GetHistoryAsync();
         }
     }
 }

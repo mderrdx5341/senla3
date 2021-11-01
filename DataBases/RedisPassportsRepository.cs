@@ -38,12 +38,30 @@ namespace Passports.DataBases
         }
 
         /// <summary>
+        /// Асинхронное получение списка паспортов
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<Passport>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Получение списка записей истории
         /// </summary>
         /// <returns></returns>
         public List<PassportHistory> GetHistory()
         {
             return _db.StringGetObjects<PassportHistory>(GetHistoryKeys().ToArray());
+        }
+
+        /// <summary>
+        /// Получение списка записей истории
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<PassportHistory>> GetHistoryAsync()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

@@ -37,12 +37,30 @@ namespace Passports.DataBases
         }
 
         /// <summary>
+        /// Асинхронное получение списка паспортов
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Passport>> GetAllAsync()
+        {
+            return await _ctx.Passports.Include(p => p.History).ToListAsync();
+        }
+
+        /// <summary>
         /// Получение списка записей истории
         /// </summary>
         /// <returns></returns>
         public List<PassportHistory> GetHistory()
         {
             return _ctx.PassportsHistory.ToList();
+        }
+
+        /// <summary>
+        /// Получение списка записей истории
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<PassportHistory>> GetHistoryAsync()
+        {
+            return await _ctx.PassportsHistory.ToListAsync();
         }
 
         /// <summary>
