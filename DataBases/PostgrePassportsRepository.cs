@@ -71,6 +71,7 @@ namespace Passports.DataBases
         /// <param name="passport"></param>
         public void Add(Passport passport)
         {
+            passport.Id = 0;
             _ctx.Passports.Add(passport);
         }
 

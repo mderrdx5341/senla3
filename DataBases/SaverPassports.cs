@@ -24,17 +24,15 @@ namespace Passports.DataBases
                     p => p.Series == passport.Series && p.Number == passport.Number
                 ).FirstOrDefault();
 
-                if (coincidentPassport != null)
+                bool hasCoincidentPassport = coincidentPassport != null;
+                if (hasCoincidentPassport)
                 {
                     newPassports.Remove(coincidentPassport);
                 }
-
-                if (
-                    (coincidentPassport == null && passport.IsActive == false)
-                    || (coincidentPassport != null && passport.IsActive == true)
-                ) {
+                if (passport.IsActive == hasCoincidentPassport)
+                {
                     ChangeStatus(passport);
-                    toRepository.Add(passport, OperationRepository.Update);
+                    toRepository.Add(passport, OperationRepository.Update);                    
                 }
             }
 

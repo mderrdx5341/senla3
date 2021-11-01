@@ -34,7 +34,7 @@ namespace Passports
         public void ConfigureServices(IServiceCollection services)
         {
             services.InitDataBase(Configuration);
-            services.AddScoped<ISaverPassports, SaverPassports>();
+            services.AddSingleton<ISaverPassports, SaverPassports>();
 
             services.AddQuartz(q =>
             {
