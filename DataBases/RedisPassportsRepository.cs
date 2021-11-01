@@ -34,7 +34,7 @@ namespace Passports.DataBases
         /// <returns></returns>
         public List<Passport> GetAll()
         {
-            return _db.GetObjects<Passport>(GetAllPassportsKeys().ToArray());
+            return _db.StringGetObjects<Passport>(GetAllPassportsKeys().ToArray());
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Passports.DataBases
         /// <returns></returns>
         public List<PassportHistory> GetHistory()
         {
-            return _db.GetObjects<PassportHistory>(GetHistoryKeys().ToArray());
+            return _db.StringGetObjects<PassportHistory>(GetHistoryKeys().ToArray());
         }
 
         /// <summary>
@@ -72,9 +72,9 @@ namespace Passports.DataBases
         public void Add(Passport passport)
         {
             string key = CreatePassportKey(passport);
-            AddPassportKey(key);
+            _db.SetAddValue(PassportKeys, key);
             AddHistoryRecord(passport);
-            _db.SetObject<Passport>(key, passport);
+            _db.StringAddObject<Passport>(key, passport);
         }
 
         /// <summary>
@@ -84,35 +84,26 @@ namespace Passports.DataBases
         public void Update(Passport passport)
         {
             AddHistoryRecord(passport);
-            _db.SetObject<Passport>(CreatePassportKey(passport), passport);
+            _db.StringAddObject<Passport>(CreatePassportKey(passport), passport);
         }
 
         private RedisKey[] GetAllPassportsKeys()
         {
-            return _db.GetSetValuesAsKeys(PassportKeys);
-        }
-
-        private void AddPassportKey(string key)
-        {
-            _db.SetAddValue(PassportKeys, key);
+            return _db.SetGetValuesAsKeys(PassportKeys);
         }
 
         private RedisKey[] GetHistoryKeys()
         {
-            return _db.GetSetValuesAsKeys(DateKeys);
+            return _db.SetGetValuesAsKeys(DateKeys);
         }
 
         private void AddHistoryRecord(Passport passport)
         {
             string key = CreateHistoryKey(passport, passport.History.Last());
-            AddHistoryKey(key);
-            _db.SetObject<PassportHistory>(key, passport.History.Last());
+            _db.SetAddValue(DateKeys, key);
+            _db.StringAddObject<PassportHistory>(key, passport.History.Last());
         }
 
-        private void AddHistoryKey(string key)
-        {
-            _db.SetAddValue(DateKeys, key);
-        }
         private string CreatePassportKey(Passport passport)
         {
             return passport.Series + "-" + passport.Number;
