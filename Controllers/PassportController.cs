@@ -19,10 +19,12 @@ namespace Passports.Controllers
     public class PassportController : ControllerBase
     {
         private readonly IPassportsService _passportsServie;
+
         public PassportController(IServiceProvider serviceProvider)
         {
             _passportsServie = serviceProvider.GetRequiredService<IPassportsService>();
         }
+
         /// <summary>
         /// Получение списка паспортов
         /// </summary>
@@ -32,6 +34,7 @@ namespace Passports.Controllers
         {
             return new ArrayList(_passportsServie.GetPassports());
         }
+
         /// <summary>
         /// Список всех записей истории
         /// </summary>

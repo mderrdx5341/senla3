@@ -12,10 +12,12 @@ namespace Passports.Services
     internal class PassportsService : IPassportsService
     {
         private readonly IPassportsRepository _passportsRepository;
+
         public PassportsService(IPassportsRepository passportsRepository)
         {
             _passportsRepository = passportsRepository;
         }
+
         /// <summary>
         /// Список всех записей истории
         /// </summary>

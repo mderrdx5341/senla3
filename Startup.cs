@@ -11,11 +11,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Passports.DataBases;
 using Passports.Jobs;
 using Passports.Models;
 using Passports.Services;
 using Quartz;
 using Quartz.Spi;
+using StackExchange.Redis;
 
 namespace Passports
 {
@@ -31,9 +33,9 @@ namespace Passports
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<DataBaseContext>(options => options.UseNpgsql(connection));
-            
+            services.InitDataBase(Configuration);
+            services.AddSingleton<ISaverPassports, SaverPassports>();
+
             services.AddQuartz(q =>
             {
                 q.UseMicrosoftDependencyInjectionJobFactory();
@@ -45,7 +47,6 @@ namespace Passports
                 options.WaitForJobsToComplete = true;
             });
 
-            services.AddScoped<IPassportsRepository, PassportsRepository>();
             services.AddScoped<IPassportsService, PassportsService>();
             
             services.AddControllers();
