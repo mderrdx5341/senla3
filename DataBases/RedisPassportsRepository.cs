@@ -3,6 +3,7 @@ using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Passports.DataBases
@@ -16,6 +17,7 @@ namespace Passports.DataBases
         private const string DateKeys = "dates";
         private readonly RedisDataBase _db;
         private readonly ISaverPassports _saverPassports;
+        private readonly SemaphoreSlim _mutex = new SemaphoreSlim(1);
 
         public RedisPassportsRepository(RedisDataBase db, ISaverPassports sp)
         {
@@ -41,11 +43,10 @@ namespace Passports.DataBases
         /// Асинхронное получение списка паспортов
         /// </summary>
         /// <returns></returns>
-        public Task<List<Passport>> GetAllAsync()
+        public async Task<List<Passport>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await Task.Run(() => GetAll());
         }
-
         /// <summary>
         /// Получение списка записей истории
         /// </summary>
@@ -59,9 +60,9 @@ namespace Passports.DataBases
         /// Получение списка записей истории
         /// </summary>
         /// <returns></returns>
-        public Task<List<PassportHistory>> GetHistoryAsync()
+        public async Task<List<PassportHistory>> GetHistoryAsync()
         {
-            throw new NotImplementedException();
+            return await Task.Run(() => GetHistory());
         }
 
         /// <summary>
@@ -86,9 +87,18 @@ namespace Passports.DataBases
         /// <summary>
         /// Асинхронная обработать список паспортов
         /// </summary>
-        public void SaveRangeAsync(List<Passport> passports)
+        public async void SaveRangeAsync(List<Passport> passports)
         {
-            throw new NotImplementedException();
+            await _mutex.WaitAsync();
+            try
+            {
+                await Task.Run(() => SaveRange(passports));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            _mutex.Release();
         }
 
         /// <summary>
