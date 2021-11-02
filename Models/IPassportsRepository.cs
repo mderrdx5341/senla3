@@ -55,5 +55,11 @@ namespace Passports.Models
         /// </summary>
         /// <param name="passports"></param>
         void SaveRange(List<Passport> passports);
+
+        /// <summary>
+        /// Асинхронная обработать список паспортов
+        /// </summary>
+        /// <param name="passports"></param>
+        void SaveRangeAsync(List<Passport> passports);
     }
 }

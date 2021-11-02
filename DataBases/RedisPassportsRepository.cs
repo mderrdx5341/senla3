@@ -84,6 +84,14 @@ namespace Passports.DataBases
         }
 
         /// <summary>
+        /// Асинхронная обработать список паспортов
+        /// </summary>
+        public void SaveRangeAsync(List<Passport> passports)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Добавить паспорт
         /// </summary>
         /// <param name="passport"></param>
