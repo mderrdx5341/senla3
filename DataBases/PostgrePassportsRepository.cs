@@ -91,17 +91,16 @@ namespace Passports.DataBases
         /// <param name="passports"></param>
         public async void SaveRangeAsync(List<Passport> passports)
         {
-
-                await _mutex.WaitAsync();
-                try
-                {
-                    await Task.Run(() => SaveRange(passports));                    
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
-                _mutex.Release();
+            await _mutex.WaitAsync();
+            try
+            {
+                await Task.Run(() => SaveRange(passports));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            _mutex.Release();
         }
 
         /// <summary>
