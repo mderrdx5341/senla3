@@ -10,6 +10,8 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text;
+using System.Net.Http;
+using System.Threading;
 
 namespace Passports.Jobs
 {
@@ -33,14 +35,20 @@ namespace Passports.Jobs
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public Task Execute(IJobExecutionContext context)
+        public async Task Execute(IJobExecutionContext context)
         {
-            using (WebClient client = new WebClient())
+            using (HttpClient client = new HttpClient())
             {
-                client.DownloadFile(new Uri(_url), NameZipFile);
-                UpdateDataFromZip();
+                using (HttpResponseMessage response = await client.GetAsync(_url, HttpCompletionOption.ResponseHeadersRead))
+                using (Stream streamToReadFrom = await response.Content.ReadAsStreamAsync())
+                {
+                    using (Stream streamToWriteTo = File.Open(NameZipFile, FileMode.Create))
+                    {
+                        await streamToReadFrom.CopyToAsync(streamToWriteTo);                       
+                    }                   
+                }
             }
-            return Task.CompletedTask;
+            UpdateDataFromZip();
         }
 
         private void UpdateDataFromZip()
@@ -52,6 +60,7 @@ namespace Passports.Jobs
                     UpdateData(zipEntry.Open());
                 }
             }
+            //File.Delete(NameZipFile);
         }
 
         private void UpdateData(Stream stream)

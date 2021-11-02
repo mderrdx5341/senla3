@@ -18,7 +18,6 @@ namespace Passports.DataBases
         private readonly PostgreDataBase _ctx;
         private readonly ISaverPassports _saverPassports;
         private readonly SemaphoreSlim _mutex = new SemaphoreSlim(1);
-        private bool b = false;
 
         public PostgrePassportsRepository(IConfiguration configuration, ISaverPassports sp)
         {
@@ -77,11 +76,11 @@ namespace Passports.DataBases
             {
                 if (passportEntry.Value == OperationRepository.Add)
                 {
-                    _ctx.Add(passportEntry.Key);
+                    Add(passportEntry.Key);
                 }
                 if (passportEntry.Value == OperationRepository.Update)
                 {
-                    _ctx.Update(passportEntry.Key);
+                    Update(passportEntry.Key);
                 }
             }
         }
@@ -92,6 +91,7 @@ namespace Passports.DataBases
         /// <param name="passports"></param>
         public async void SaveRangeAsync(List<Passport> passports)
         {
+
                 await _mutex.WaitAsync();
                 try
                 {
