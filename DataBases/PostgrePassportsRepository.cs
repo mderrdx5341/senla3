@@ -111,7 +111,7 @@ namespace Passports.DataBases
         {
             passport.Id = 0;
             _ctx.Passports.Add(passport);
-            _ctx.SaveChanges();
+            _ctx.SaveChangesAsync();
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Passports.DataBases
         public void Update(Passport passport)
         {
             _ctx.Passports.Update((Passport)passport);
-            _ctx.SaveChanges();
+            _ctx.SaveChangesAsync();
         }
     }
 }

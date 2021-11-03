@@ -28,7 +28,7 @@ namespace Passports.DataBases
         /// <param name="value"></param>
         public void SetAddValue(string key, string value)
         {
-            _db.SetAdd(key, value);
+            _db.SetAddAsync(key, value);
         }
 
         /// <summary>
@@ -49,9 +49,9 @@ namespace Passports.DataBases
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public bool KeyExists(string key)
+        public Task<bool> KeyExists(string key)
         {
-            return _db.KeyExists(key);
+            return _db.KeyExistsAsync(key);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Passports.DataBases
         /// <param name="obj"></param>
         public void StringAddObject<T>(string key, T obj)
         {
-            _db.StringSet(key, JsonSerializer.Serialize<T>(obj));
+            _db.StringSetAsync(key, JsonSerializer.Serialize<T>(obj));
         }
 
         /// <summary>
