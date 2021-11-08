@@ -91,7 +91,6 @@ namespace Passports.DataBases
         /// <param name="passports"></param>
         public async void SaveRangeAsync(List<Passport> passports)
         {
-            await _mutex.WaitAsync();
             try
             {
                 await Task.Run(() => SaveRange(passports));
@@ -100,7 +99,6 @@ namespace Passports.DataBases
             {
                 Console.WriteLine(e);
             }
-            _mutex.Release();
         }
 
         /// <summary>
@@ -111,7 +109,7 @@ namespace Passports.DataBases
         {
             passport.Id = 0;
             _ctx.Passports.Add(passport);
-            _ctx.SaveChangesAsync();
+            Save();
         }
 
         /// <summary>
@@ -121,7 +119,14 @@ namespace Passports.DataBases
         public void Update(Passport passport)
         {
             _ctx.Passports.Update((Passport)passport);
-            _ctx.SaveChangesAsync();
+            Save();
+        }
+
+        private async void Save()
+        {
+            await _mutex.WaitAsync();
+            await _ctx.SaveChangesAsync().ConfigureAwait(false);
+            _mutex.Release();
         }
     }
 }
