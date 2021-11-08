@@ -91,7 +91,7 @@ namespace Passports.DataBases
         public async Task<List<T>> StringGetObjectsAsync<T>(RedisKey[] keys)
         {
             List<T> objsFromJson = new List<T>();
-            RedisValue[] objsJson = await _db.StringGetAsync(keys);
+            RedisValue[] objsJson = await _db.StringGetAsync(keys).ConfigureAwait(false);
             foreach (string obJSON in objsJson) {
                 objsFromJson.Add(JsonSerializer.Deserialize<T>(obJSON));
             }
