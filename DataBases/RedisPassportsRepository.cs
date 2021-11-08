@@ -45,8 +45,9 @@ namespace Passports.DataBases
         /// <returns></returns>
         public async Task<List<Passport>> GetAllAsync()
         {
-            return await Task.Run(() => GetAll());
+            return await _db.StringGetObjectsAsync<Passport>(GetAllPassportsKeys().ToArray());
         }
+
         /// <summary>
         /// Получение списка записей истории
         /// </summary>
@@ -62,7 +63,7 @@ namespace Passports.DataBases
         /// <returns></returns>
         public async Task<List<PassportHistory>> GetHistoryAsync()
         {
-            return await Task.Run(() => GetHistory());
+            return await _db.StringGetObjectsAsync<PassportHistory>(GetHistoryKeys().ToArray());
         }
 
         /// <summary>

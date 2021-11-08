@@ -44,7 +44,7 @@ namespace Passports.Jobs
                 {
                     using (Stream streamToWriteTo = File.Open(NameZipFile, FileMode.Create))
                     {
-                        await streamToReadFrom.CopyToAsync(streamToWriteTo);                       
+                        await streamToReadFrom.CopyToAsync(streamToWriteTo).ConfigureAwait(false);                       
                     }                   
                 }
             }

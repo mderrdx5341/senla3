@@ -45,7 +45,7 @@ namespace Passports.DataBases
         /// <returns></returns>
         public async Task<List<Passport>> GetAllAsync()
         {
-            return await _ctx.Passports.Include(p => p.History).ToListAsync();
+            return await _ctx.Passports.Include(p => p.History).ToListAsync().ConfigureAwait(false);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Passports.DataBases
         /// <returns></returns>
         public async Task<List<PassportHistory>> GetHistoryAsync()
         {
-            return await _ctx.PassportsHistory.ToListAsync();
+            return await _ctx.PassportsHistory.ToListAsync().ConfigureAwait(false);
         }
 
         /// <summary>
