@@ -44,7 +44,7 @@ namespace Passports.Controllers
         /// <returns></returns>
         [HttpGet("history")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<PassportHistory>))]
-        public async Task<IActionResult> GetHistory()
+        public async Task<IActionResult> GetHistoryAsync()
         {
             var passportsHistories = await _passportsServie.GetHistoryAsync();
             return Ok(passportsHistories);
