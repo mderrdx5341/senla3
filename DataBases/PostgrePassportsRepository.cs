@@ -109,7 +109,7 @@ namespace Passports.DataBases
         {
             passport.Id = 0;
             _ctx.Passports.Add(passport);
-            Save();
+            SaveAsync();
         }
 
         /// <summary>
@@ -119,10 +119,10 @@ namespace Passports.DataBases
         public void Update(Passport passport)
         {
             _ctx.Passports.Update((Passport)passport);
-            Save();
+            SaveAsync();
         }
 
-        private async void Save()
+        private async void SaveAsync()
         {
             await _mutex.WaitAsync();
             await _ctx.SaveChangesAsync().ConfigureAwait(false);
