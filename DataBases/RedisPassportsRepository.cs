@@ -17,7 +17,6 @@ namespace Passports.DataBases
         private const string DateKeys = "dates";
         private readonly RedisDataBase _db;
         private readonly ISaverPassports _saverPassports;
-        private readonly SemaphoreSlim _mutex = new SemaphoreSlim(1);
 
         public RedisPassportsRepository(RedisDataBase db, ISaverPassports sp)
         {
@@ -90,7 +89,6 @@ namespace Passports.DataBases
         /// </summary>
         public async void SaveRangeAsync(List<Passport> passports)
         {
-            await _mutex.WaitAsync();
             try
             {
                 await Task.Run(() => SaveRange(passports));
@@ -99,7 +97,6 @@ namespace Passports.DataBases
             {
                 Console.WriteLine(e);
             }
-            _mutex.Release();
         }
 
         /// <summary>
