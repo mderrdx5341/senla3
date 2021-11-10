@@ -1,5 +1,6 @@
 ﻿using Passports.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Passports.Models
 {
@@ -20,10 +21,22 @@ namespace Passports.Models
         public List<Passport> GetAll();
 
         /// <summary>
+        /// Асинхронное получение списка паспартов
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<Passport>> GetAllAsync();
+
+        /// <summary>
         /// Получение списка записей историй
         /// </summary>
         /// <returns></returns>
         public List<PassportHistory> GetHistory();
+
+        /// <summary>
+        /// Асинхронное получение списка записей историй
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<PassportHistory>> GetHistoryAsync();
 
         /// <summary>
         /// Добавить паспорт
@@ -42,5 +55,11 @@ namespace Passports.Models
         /// </summary>
         /// <param name="passports"></param>
         void SaveRange(List<Passport> passports);
+
+        /// <summary>
+        /// Асинхронная обработать список паспортов
+        /// </summary>
+        /// <param name="passports"></param>
+        void SaveRangeAsync(List<Passport> passports);
     }
 }

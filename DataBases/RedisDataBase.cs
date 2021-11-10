@@ -28,7 +28,7 @@ namespace Passports.DataBases
         /// <param name="value"></param>
         public void SetAddValue(string key, string value)
         {
-            _db.SetAdd(key, value);
+            _db.SetAddAsync(key, value).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -45,16 +45,6 @@ namespace Passports.DataBases
         }
 
         /// <summary>
-        /// Проверить существование ключа
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public bool KeyExists(string key)
-        {
-            return _db.KeyExists(key);
-        }
-
-        /// <summary>
         /// Сохранить объект как Строку JSON
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -62,7 +52,7 @@ namespace Passports.DataBases
         /// <param name="obj"></param>
         public void StringAddObject<T>(string key, T obj)
         {
-            _db.StringSet(key, JsonSerializer.Serialize<T>(obj));
+            _db.StringSetAsync(key, JsonSerializer.Serialize<T>(obj)).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -85,7 +75,24 @@ namespace Passports.DataBases
         public List<T> StringGetObjects<T>(RedisKey[] keys)
         {
             List<T> objsFromJson = new List<T>();
-            foreach (string obJSON in _db.StringGet(keys)) {
+            foreach (string obJSON in _db.StringGet(keys))
+            {
+                objsFromJson.Add(JsonSerializer.Deserialize<T>(obJSON));
+            }
+            return objsFromJson;
+        }
+
+        /// <summary>
+        /// Возвращает список объектов из JSON
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="keys"></param>
+        /// <returns></returns>
+        public async Task<List<T>> StringGetObjectsAsync<T>(RedisKey[] keys)
+        {
+            List<T> objsFromJson = new List<T>();
+            RedisValue[] objsJson = await _db.StringGetAsync(keys).ConfigureAwait(false);
+            foreach (string obJSON in objsJson) {
                 objsFromJson.Add(JsonSerializer.Deserialize<T>(obJSON));
             }
             return objsFromJson;

@@ -3,6 +3,7 @@ using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Passports.DataBases
@@ -38,12 +39,30 @@ namespace Passports.DataBases
         }
 
         /// <summary>
+        /// Асинхронное получение списка паспортов
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Passport>> GetAllAsync()
+        {
+            return await _db.StringGetObjectsAsync<Passport>(GetAllPassportsKeys().ToArray());
+        }
+
+        /// <summary>
         /// Получение списка записей истории
         /// </summary>
         /// <returns></returns>
         public List<PassportHistory> GetHistory()
         {
             return _db.StringGetObjects<PassportHistory>(GetHistoryKeys().ToArray());
+        }
+
+        /// <summary>
+        /// Получение списка записей истории
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<PassportHistory>> GetHistoryAsync()
+        {
+            return await _db.StringGetObjectsAsync<PassportHistory>(GetHistoryKeys().ToArray());
         }
 
         /// <summary>
@@ -62,6 +81,21 @@ namespace Passports.DataBases
                 {
                     Update(passportEntry.Key);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Асинхронная обработать список паспортов
+        /// </summary>
+        public async void SaveRangeAsync(List<Passport> passports)
+        {
+            try
+            {
+                await Task.Run(() => SaveRange(passports));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
         }
 

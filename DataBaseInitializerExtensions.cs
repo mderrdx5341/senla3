@@ -34,7 +34,7 @@ namespace Passports
                 services.AddDbContext<PostgreDataBase>(options => options.UseNpgsql(
                     configuration.GetConnectionString("DefaultConnection"))
                 );
-                services.AddScoped<IPassportsRepository, PostgrePassportsRepository>();
+                services.AddSingleton<IPassportsRepository, PostgrePassportsRepository>();
             }
             else
             {

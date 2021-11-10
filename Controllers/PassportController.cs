@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Passports.Models;
 using Passports.Services;
 using System.Collections;
+using Microsoft.AspNetCore.Http;
 
 namespace Passports.Controllers
 {
@@ -30,9 +31,11 @@ namespace Passports.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<ArrayList> GetPassports()
-        {
-            return new ArrayList(_passportsServie.GetPassports());
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Passport>))]
+        public async Task<IActionResult> GetPassportsAsync()
+        {      
+            var passports = await _passportsServie.GetPassportsAsync();
+            return  Ok(passports);
         }
 
         /// <summary>
@@ -40,9 +43,11 @@ namespace Passports.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("history")]
-        public ActionResult<ArrayList> GetHistory()
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<PassportHistory>))]
+        public async Task<IActionResult> GetHistoryAsync()
         {
-            return new ArrayList(_passportsServie.GetHistory());
+            var passportsHistories = await _passportsServie.GetHistoryAsync();
+            return Ok(passportsHistories);
         }
     }
 }
