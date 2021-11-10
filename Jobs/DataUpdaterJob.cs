@@ -39,8 +39,8 @@ namespace Passports.Jobs
         {
             using (HttpClient client = new HttpClient())
             {
-                using (HttpResponseMessage response = await client.GetAsync(_url, HttpCompletionOption.ResponseHeadersRead))
-                using (Stream streamToReadFrom = await response.Content.ReadAsStreamAsync())
+                using (HttpResponseMessage response = await client.GetAsync(_url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
+                using (Stream streamToReadFrom = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
                 {
                     using (Stream streamToWriteTo = File.Open(NameZipFile, FileMode.Create))
                     {
