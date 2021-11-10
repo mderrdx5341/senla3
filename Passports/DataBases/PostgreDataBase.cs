@@ -38,5 +38,10 @@ namespace Passports.DataBases
             string connection = _configuration.GetConnectionString("PostgreDefaultConnection");
             optionsBuilder.UseNpgsql(connection);
         }
+
+        public void Save()
+        {
+            SaveChangesAsync();
+        }
     }
 }
