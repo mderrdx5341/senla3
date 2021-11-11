@@ -36,5 +36,18 @@ namespace PassportsTest.Services
             List<Passport> lp = _service.GetPassports();
             Assert.AreEqual(lp.Count, 3);
         }
+
+        [Test]
+        public async Task GetAllAsync_Test()
+        {
+            _mockPassportRepository.Setup(r => r.GetAllAsync()).ReturnsAsync(
+                    new List<Passport>() {
+                        new Passport() { Id=1, IsActive=false, Series=1111, Number=2222},
+                        new Passport() { Id=1, IsActive=false, Series=1111, Number=3333},
+                    }
+                );
+            List<Passport> lp = await _service.GetPassportsAsync();
+            Assert.AreEqual(lp.Count, 2);
+        }
     }
 }
