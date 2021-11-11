@@ -26,7 +26,7 @@ namespace Passports.DataBases
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        public void SetAddValue(string key, string value)
+        public virtual void SetAddValue(string key, string value)
         {
             _db.SetAddAsync(key, value).ConfigureAwait(false);
         }
@@ -36,7 +36,7 @@ namespace Passports.DataBases
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public RedisKey[] SetGetValuesAsKeys(string key)
+        public virtual RedisKey[] SetGetValuesAsKeys(string key)
         {
             return Array.ConvertAll(
                 _db.SetScan(key).ToArray(),
@@ -50,7 +50,7 @@ namespace Passports.DataBases
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <param name="obj"></param>
-        public void StringAddObject<T>(string key, T obj)
+        public virtual void StringAddObject<T>(string key, T obj)
         {
             _db.StringSetAsync(key, JsonSerializer.Serialize<T>(obj)).ConfigureAwait(false);
         }
@@ -72,7 +72,7 @@ namespace Passports.DataBases
         /// <typeparam name="T"></typeparam>
         /// <param name="keys"></param>
         /// <returns></returns>
-        public List<T> StringGetObjects<T>(RedisKey[] keys)
+        public virtual List<T> StringGetObjects<T>(RedisKey[] keys)
         {
             List<T> objsFromJson = new List<T>();
             foreach (string obJSON in _db.StringGet(keys))
