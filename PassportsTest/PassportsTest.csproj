@@ -16,4 +16,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Passports\Passports.csproj" />
+  </ItemGroup>
+
 </Project>
