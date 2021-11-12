@@ -13,7 +13,7 @@ using Passports.Models;
 namespace PassportsTest.Databases
 {
     [TestFixture]
-    class SaverPassportsTests
+    internal class SaverPassportsTests
     {
         [Test]
         public void ChangeForRepository_PassportAdd()

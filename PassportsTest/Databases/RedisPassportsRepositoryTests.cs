@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace PassportsTest.Databases
 {
     [TestFixture]
-    class RedisPassportsRepositoryTest
+    internal class RedisPassportsRepositoryTest
     {
         private Mock<IRedisDataBase> _mockRedisDatabase;
         private RedisPassportsRepository _repository;

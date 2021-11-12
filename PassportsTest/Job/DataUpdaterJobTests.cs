@@ -13,7 +13,7 @@ using Microsoft.Extensions.Configuration;
 namespace PassportsTest.Job
 {    
     [TestFixture]
-    class DataUpdaterJobTests
+    internal class DataUpdaterJobTests
     {
         private Mock<IPassportsRepository> _mockRepository;
         private Mock<IConfiguration> _configuration;
