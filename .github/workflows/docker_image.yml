@@ -4,12 +4,15 @@ on:
   push:
     branches: [ master ]
 env:
-  IMAGE_NAME: gaction
+  IMAGE_NAME: passports
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
 
     steps:
     - uses: actions/checkout@v2
