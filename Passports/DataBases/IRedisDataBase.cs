@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace Passports.DataBases
 {
+    /// <summary>
+    /// Интерфейс для работы с Redis
+    /// </summary>
     internal interface IRedisDataBase
     {
         /// <summary>
