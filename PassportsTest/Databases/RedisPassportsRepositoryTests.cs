@@ -41,7 +41,7 @@ namespace PassportsTest.Databases
             );
 
             _mockRedisDatabase.Verify(
-                db => db.SetAddValue(RedisPassportsRepository.PassportKeys, "1111-2222"),
+                db => db.SetAddValue("passports", "1111-2222"),
                 Times.Once()
             );
             _mockRedisDatabase.Verify(
@@ -68,7 +68,7 @@ namespace PassportsTest.Databases
             );
 
             _mockRedisDatabase.Verify(
-                db => db.SetAddValue(RedisPassportsRepository.DateKeys, "1111-2222 - 10.10.2020 0:00:00"),
+                db => db.SetAddValue("dates", "1111-2222 - 10.10.2020 0:00:00"),
                 Times.Once()
             );
             _mockRedisDatabase.Verify(
@@ -82,7 +82,7 @@ namespace PassportsTest.Databases
         {
             RedisKey[] redisKeys = new []{ new RedisKey("1111-2222"), new RedisKey("1111-3333")};
             _mockRedisDatabase.Setup(
-                db => db.SetGetValuesAsKeys(RedisPassportsRepository.PassportKeys)
+                db => db.SetGetValuesAsKeys("passports")
             ).Returns(redisKeys);
 
             _repository.GetAll();
