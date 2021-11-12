@@ -145,7 +145,7 @@ namespace Passports.DataBases
 
         private string CreateHistoryKey(Passport passport, PassportHistory passportHistory)
         {
-            return CreatePassportKey(passport) + " - " + passportHistory.DateTimeChange.ToString();
+            return CreatePassportKey(passport) + " - " + passportHistory.DateTimeChange.ToString("dd.MM.yyyy H:mm:ff");
         }
     }
 }
