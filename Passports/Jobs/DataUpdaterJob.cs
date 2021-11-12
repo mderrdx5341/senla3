@@ -66,7 +66,7 @@ namespace Passports.Jobs
             //File.Delete(NameZipFile);
         }
 
-        public List<Passport> ReadDataFromCSV(Stream stream)
+        internal List<Passport> ReadDataFromCSV(Stream stream)
         {
             List<Passport> passports = new List<Passport>();
             using (StreamReader csv = new StreamReader(stream))
