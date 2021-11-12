@@ -15,7 +15,7 @@ namespace PassportsTest.Databases
     internal class RedisPassportsRepositoryTest
     {
         private Mock<IRedisDataBase> _mockRedisDatabase;
-        private Mock<ISaverPassports> _saverPassport;
+        private Mock<ISaverPassports> _mockSaverPassport;
         private RedisPassportsRepository _repository;
          
 
@@ -23,8 +23,8 @@ namespace PassportsTest.Databases
         public void SetUp()
         {
             _mockRedisDatabase = new Mock<IRedisDataBase>();
-            _saverPassport = new Mock<ISaverPassports>();
-            _repository = new RedisPassportsRepository(_mockRedisDatabase.Object, _saverPassport.Object);
+            _mockSaverPassport = new Mock<ISaverPassports>();
+            _repository = new RedisPassportsRepository(_mockRedisDatabase.Object, _mockSaverPassport.Object);
         }
 
         [Test]
