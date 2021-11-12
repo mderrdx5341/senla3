@@ -15,64 +15,58 @@ namespace PassportsTest.Databases
     [TestFixture]
     internal class SaverPassportsTests
     {
-        [Test]
-        public void ChangeForRepository_PassportAdd()
+        internal class AssertValues
         {
-            List<Passport> passportInRepository = new List<Passport>();
-            List<Passport> newPassports = new List<Passport>()
-            {
-                new Passport{ Series=1111, Number=2222},
-            };
-
-            SaverPassports sp = new SaverPassports();
-            Dictionary<Passport, OperationRepository> passportForRepository = sp.ChangeForRepository(passportInRepository, newPassports);
-
-            foreach (KeyValuePair<Passport, OperationRepository> passportEntry in passportForRepository)
-            {
-                Assert.AreEqual(passportEntry.Value, OperationRepository.Add);
-                Assert.IsFalse(passportEntry.Key.IsActive);
-                Assert.AreEqual(passportEntry.Key.History.Last().ChangeType, PassportStatus.Add);
-            }
+            public OperationRepository OperationRepository{ get; set; }
+            public bool PassportStatus { get; set; }
+            public PassportStatus HistoryStatus { get; set; }
         }
 
-        [Test]
-        public void ChangeForRepository_PassportActivation()
+        private static object[] Passports =
         {
-            List<Passport> passportInRepository = new List<Passport>() {
-                    new Passport{ Id=1, IsActive = false, Series=1111, Number=2222},
-            };
-            List<Passport> newPassports = new List<Passport>();
+            //Add
+            new object[] {
+                new List<Passport>(),
+                new List<Passport>()
+                {
+                    new Passport{ Series=1111, Number=2222},
+                },
+                new AssertValues(){ OperationRepository = OperationRepository.Add, PassportStatus = false, HistoryStatus = PassportStatus.Add }
+            },
 
-            SaverPassports sp = new SaverPassports();
-            Dictionary<Passport, OperationRepository> passportForRepository = sp.ChangeForRepository(passportInRepository, newPassports);
+            //activated
+            new object[] {
+                new List<Passport>() {
+                        new Passport{ Id=1, IsActive = false, Series=1111, Number=2222},
+                },
+                new List<Passport>(),
+                new AssertValues(){ OperationRepository = OperationRepository.Update, PassportStatus = true, HistoryStatus = PassportStatus.Active }
+            },
 
-            foreach (KeyValuePair<Passport, OperationRepository> passportEntry in passportForRepository)
-            {
-                Assert.AreEqual(passportEntry.Value, OperationRepository.Update);
-                Assert.IsTrue(passportEntry.Key.IsActive);
-                Assert.AreEqual(passportEntry.Key.History.Last().ChangeType, PassportStatus.Active);
+            //deactivated
+            new object[] {
+                new List<Passport>() {
+                    new Passport{ Id=0, IsActive = true, Series=1111, Number=2222},
+                },
+                new List<Passport>()
+                {
+                    new Passport{ Series=1111, Number=2222},
+                },
+                new AssertValues(){ OperationRepository = OperationRepository.Update, PassportStatus = false, HistoryStatus = PassportStatus.NotActive }
             }
-        }
+        };
 
-        [Test]
-        public void ChangeForRepository_PassportDeactivation()
+        [TestCaseSource(nameof(Passports))]
+        public void ChangeForRepository_PassportAdd_Test(List<Passport> passportInRepository, List<Passport> newPassports, AssertValues assertValues)
         {
-            List<Passport> passportInRepository = new List<Passport>() {
-                new Passport{ Id=0, IsActive = true, Series=1111, Number=2222},
-            };
-            List<Passport> newPassports = new List<Passport>()
-            {
-                new Passport{ Series=1111, Number=2222},
-            };
-
             SaverPassports sp = new SaverPassports();
             Dictionary<Passport, OperationRepository> passportForRepository = sp.ChangeForRepository(passportInRepository, newPassports);
 
             foreach (KeyValuePair<Passport, OperationRepository> passportEntry in passportForRepository)
             {
-                Assert.AreEqual(passportEntry.Value, OperationRepository.Update);
-                Assert.IsFalse(passportEntry.Key.IsActive);
-                Assert.AreEqual(passportEntry.Key.History.Last().ChangeType, PassportStatus.NotActive);
+                Assert.AreEqual(passportEntry.Value, assertValues.OperationRepository);
+                Assert.AreEqual(passportEntry.Key.IsActive, assertValues.PassportStatus);
+                Assert.AreEqual(passportEntry.Key.History.Last().ChangeType, assertValues.HistoryStatus);
             }
         }
     }
