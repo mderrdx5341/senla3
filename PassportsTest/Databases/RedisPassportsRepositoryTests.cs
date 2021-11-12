@@ -77,5 +77,21 @@ namespace PassportsTest.Databases
                 Times.Once()
             );
         }
+
+        [Test]
+        public void GetAll_CallKeyMethods()
+        {
+            RedisKey[] redisKeys = new []{ new RedisKey("1111-2222"), new RedisKey("1111-3333")};
+            _mockRedisDatabase.Setup(
+                db => db.SetGetValuesAsKeys(RedisPassportsRepository.PassportKeys)
+            ).Returns(redisKeys);
+
+            _repository.GetAll();
+
+            _mockRedisDatabase.Verify(
+                db => db.StringGetObjects<Passport>(redisKeys),
+                Times.Once()
+            );
+        }
     }
 }
