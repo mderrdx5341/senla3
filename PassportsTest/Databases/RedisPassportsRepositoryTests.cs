@@ -26,36 +26,29 @@ namespace PassportsTest.Databases
         }
 
         [Test]
-        public void AddPassport_Test()
+        public void Add_AddPassportAndKey()
         {
-            _mockRedisDatabase.Setup(
-                db => db.SetAddValue(It.IsAny<string>(), It.IsAny<string>())
-            );
-
-            _mockRedisDatabase.Setup(
-                db => db.StringAddObject<Passport>(It.IsAny<string>(), It.IsAny<Passport>())
-            );
-            _mockRedisDatabase.Setup(
-                db => db.SetGetValuesAsKeys(It.IsAny<string>())
-            ).Returns(new RedisKey[1]);
-
-            _mockRedisDatabase.Setup(
-                db => db.StringGetObjects<Passport>(It.IsAny<RedisKey[]>())
-            ).Returns(new List<Passport>() { 
-                new Passport(){Series = 1111, Number = 2222, IsActive = false}
-            });
-
-            _repository.Add(new Passport()
-                {
-                    Series = 1111,
-                    Number = 2222,
-                    History = new List<PassportHistory>{
+            Passport passport = new Passport()
+            {
+                Series = 1111,
+                Number = 2222,
+                History = new List<PassportHistory>{
                         new PassportHistory(){ ChangeType = PassportStatus.Add }
                     }
-                }
+            };
+
+            _repository.Add(
+                passport
             );
-            List<Passport> lp = _repository.GetAll();
-            Assert.AreEqual(lp.Count, 1);
+
+            _mockRedisDatabase.Verify(
+                db => db.SetAddValue("passports", "1111-2222"),
+                Times.Once()
+            );
+            _mockRedisDatabase.Verify(
+                db => db.StringAddObject<Passport>("1111-2222", passport),
+                Times.Once()
+            );
         }
     }
 }
