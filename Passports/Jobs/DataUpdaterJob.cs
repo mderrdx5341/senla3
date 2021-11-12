@@ -57,17 +57,21 @@ namespace Passports.Jobs
             {
                 foreach (var zipEntry in zip.Entries)
                 {
-                    UpdateData(zipEntry.Open());
+                    List<Passport> passports = ReadDataFromCSV(zipEntry.Open());
+                    _passportsRepository.SaveRangeAsync(
+                        passports
+                    );
                 }
             }
             //File.Delete(NameZipFile);
         }
 
-        private void UpdateData(Stream stream)
+        public List<Passport> ReadDataFromCSV(Stream stream)
         {
+            List<Passport> passports = new List<Passport>();
             using (StreamReader csv = new StreamReader(stream))
             {
-                List<Passport> passports = new List<Passport>();
+                
                 string line;
                 while ((line = csv.ReadLine()) != null)
                 {
@@ -76,10 +80,10 @@ namespace Passports.Jobs
                         new Passport() { Series = Convert.ToInt32(record[0]), Number = Convert.ToInt32(record[1]) }
                     );
                 }
-                _passportsRepository.SaveRangeAsync(
-                    passports
-                );
+
             }
+
+            return passports;
         }
     }
 }
