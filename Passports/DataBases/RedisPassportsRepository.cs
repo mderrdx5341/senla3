@@ -15,10 +15,10 @@ namespace Passports.DataBases
     {
         private const string PassportKeys = "passports";
         private const string DateKeys = "dates";
-        private readonly RedisDataBase _db;
+        private readonly IRedisDataBase _db;
         private readonly ISaverPassports _saverPassports;
 
-        public RedisPassportsRepository(RedisDataBase db, ISaverPassports sp)
+        public RedisPassportsRepository(IRedisDataBase db, ISaverPassports sp)
         {
             _saverPassports = sp;
             _db = db;

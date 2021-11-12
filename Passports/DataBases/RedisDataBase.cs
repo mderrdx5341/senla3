@@ -12,7 +12,7 @@ namespace Passports.DataBases
     /// <summary>
     /// Класс для работы с Redis
     /// </summary>
-    internal class RedisDataBase
+    internal class RedisDataBase : IRedisDataBase
     {
         private readonly IDatabase _db;
 
