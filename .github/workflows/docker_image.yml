@@ -3,6 +3,8 @@ name: build image for Packages
 on:
   push:
     branches: [ master ]
+env:
+  IMAGE_NAME: gaction
 
 jobs:
   build:
