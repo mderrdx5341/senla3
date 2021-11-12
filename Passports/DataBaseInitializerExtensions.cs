@@ -26,7 +26,7 @@ namespace Passports
                     configuration.GetConnectionString("RedisDefaultConnection")
                 );
                 services.AddSingleton<IConnectionMultiplexer>(multiplexer);
-                services.AddSingleton<RedisDataBase>();
+                services.AddSingleton<IRedisDataBase, RedisDataBase>();
                 services.AddSingleton<IPassportsRepository, RedisPassportsRepository>();
             }
             else if (configuration["Database"] == "PostgreSQL")
