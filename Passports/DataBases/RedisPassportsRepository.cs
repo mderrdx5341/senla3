@@ -13,8 +13,8 @@ namespace Passports.DataBases
     /// </summary>
     internal class RedisPassportsRepository : IPassportsRepository
     {
-        private const string PassportKeys = "passports";
-        private const string DateKeys = "dates";
+        public const string PassportKeys = "passports";
+        public const string DateKeys = "dates";
         private readonly RedisDataBase _db;
         private readonly ISaverPassports _saverPassports;
 
